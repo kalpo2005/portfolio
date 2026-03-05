@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Kalpesh Bavaliya – Full Stack Developer portfolio. Building scalable web & mobile apps with modern technologies." />
+  <title>Kalpesh Bavaliya · Full Stack Developer</title>
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Favicon (inline SVG as data URI) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════ LOADER ═══════════════════════════ -->
+  <div id="loader" aria-hidden="true">
+    <div class="loader-inner">
+      <div class="loader-logo">KB</div>
+      <div class="loader-bar"><span></span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ NAV ═══════════════════════════ -->
+  <nav id="navbar" aria-label="Main navigation">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo" aria-label="Home">KB</a>
+
+      <ul class="nav-links" id="nav-links" role="list">
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#experience" class="nav-link">Experience</a></li>
+        <li><a href="#education" class="nav-link">Education</a></li>
+        <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
+        <li><a href="#contact" class="nav-cta">Hire Me</a></li>
+      </ul>
+
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+    <section id="hero" aria-label="Hero">
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+      <div class="hero-content">
+        <div class="hero-badge reveal-up">Available for work ✦</div>
+        <h1 class="hero-name reveal-up">
+          <span>Kalpesh</span>
+          <span class="hero-last">Bavaliya</span>
+        </h1>
+        <p class="hero-role reveal-up">
+          <span class="role-prefix">I build&nbsp;</span>
+          <span class="typewriter" id="typewriter" aria-live="polite"></span>
+        </p>
+        <p class="hero-sub reveal-up">
+          Full Stack Developer crafting high-performance web &amp; mobile experiences.<br>
+          5+ years · ₹ 18 LPA · Surat, India
+        </p>
+        <div class="hero-actions reveal-up">
+          <a href="#projects" class="btn btn-primary">View Projects</a>
+          <a href="#contact" class="btn btn-ghost">Let's Talk &rarr;</a>
+        </div>
+        <div class="hero-stats reveal-up">
+          <div class="stat"><span class="stat-num" data-count="5">0</span><span class="stat-label">Years XP</span></div>
+          <div class="stat"><span class="stat-num" data-count="40">0</span><span class="stat-label">Projects</span></div>
+          <div class="stat"><span class="stat-num" data-count="20">0</span><span class="stat-label">Clients</span></div>
+          <div class="stat"><span class="stat-num" data-count="18">0</span><span class="stat-label">LPA CTC</span></div>
+        </div>
+      </div>
+
+      <div class="hero-scroll-hint" aria-hidden="true">
+        <span>scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════ ABOUT ═══════════════════════════ -->
+    <section id="about" class="section" aria-labelledby="about-heading">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-tag">Who I am</p>
+          <h2 id="about-heading" class="section-title">About Me</h2>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-image-wrap reveal-left">
+            <div class="about-image-frame">
+              <img src="images/kalpesh-portfolio.png" alt="Kalpesh Bavaliya – Full Stack Developer" loading="lazy" />
+              <div class="image-glow" aria-hidden="true"></div>
+            </div>
+            <div class="about-card glass reveal-left" style="--delay:.2s">
+              <span class="about-card-icon">🚀</span>
+              <div>
+                <strong>18 LPA</strong>
+                <small>Current Package</small>
+              </div>
+            </div>
+            <div class="about-card glass reveal-left" style="--delay:.4s">
+              <span class="about-card-icon">📍</span>
+              <div>
+                <strong>Surat, India</strong>
+                <small>Available Remote</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-text reveal-right">
+            <p class="about-lead">
+              Hey there! I'm a passionate <strong>Full Stack Developer</strong> with 5+ years of experience turning ideas into robust, scalable digital products.
+            </p>
+            <p>
+              I specialize in <strong>React.js, Node.js, Laravel, Flutter</strong> and cloud infrastructure. From pixel-perfect UIs to high-throughput APIs, I love every layer of the stack.
+            </p>
+            <p>
+              When I'm not coding, I'm exploring system design, contributing to open source, or mentoring junior devs. I believe great software is built on clean code, empathy for users, and relentless iteration.
+            </p>
+
+            <div class="about-highlights">
+              <div class="highlight">
+                <span class="highlight-icon">⚡</span>
+                <span>Performance-first mindset</span>
+              </div>
+              <div class="highlight">
+                <span class="highlight-icon">🎯</span>
+                <span>Product-driven approach</span>
+              </div>
+              <div class="highlight">
+                <span class="highlight-icon">🤝</span>
+                <span>Strong collaborator</span>
+              </div>
+              <div class="highlight">
+                <span class="highlight-icon">📱</span>
+                <span>Mobile & web expertise</span>
+              </div>
+            </div>
+
+            <a href="#contact" class="btn btn-primary" style="margin-top:2rem">Get In Touch</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════ SKILLS ═══════════════════════════ -->
+    <section id="skills" class="section section-dark" aria-labelledby="skills-heading">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-tag">What I work with</p>
+          <h2 id="skills-heading" class="section-title">Skills &amp; Tech Stack</h2>
+        </div>
+
+        <div class="skills-tabs reveal-up">
+          <button class="tab-btn active" data-tab="backend" id="tab-backend" aria-controls="panel-backend" role="tab" aria-selected="true">Backend</button>
+          <button class="tab-btn" data-tab="frontend" id="tab-frontend" aria-controls="panel-frontend" role="tab" aria-selected="false">Frontend</button>
+          <button class="tab-btn" data-tab="mobile" id="tab-mobile" aria-controls="panel-mobile" role="tab" aria-selected="false">Mobile</button>
+          <button class="tab-btn" data-tab="tools" id="tab-tools" aria-controls="panel-tools" role="tab" aria-selected="false">Tools &amp; Cloud</button>
+        </div>
+
+        <div class="tab-panels">
+
+          <!-- Backend -->
+          <div class="tab-panel active" id="panel-backend" role="tabpanel" aria-labelledby="tab-backend">
+            <div class="skills-grid">
+              <div class="skill-card glass reveal-up"><div class="skill-icon">🟢</div><h3>Node.js</h3><div class="skill-bar"><span style="--w:92%"></span></div><small>92%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.05s"><div class="skill-icon">🐘</div><h3>Laravel</h3><div class="skill-bar"><span style="--w:90%"></span></div><small>90%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.1s"><div class="skill-icon">🐍</div><h3>Python</h3><div class="skill-bar"><span style="--w:75%"></span></div><small>75%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.15s"><div class="skill-icon">🐬</div><h3>MySQL</h3><div class="skill-bar"><span style="--w:88%"></span></div><small>88%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.2s"><div class="skill-icon">🍃</div><h3>MongoDB</h3><div class="skill-bar"><span style="--w:82%"></span></div><small>82%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.25s"><div class="skill-icon">🔴</div><h3>Redis</h3><div class="skill-bar"><span style="--w:78%"></span></div><small>78%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.3s"><div class="skill-icon">⚡</div><h3>REST APIs</h3><div class="skill-bar"><span style="--w:95%"></span></div><small>95%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.35s"><div class="skill-icon">🔷</div><h3>GraphQL</h3><div class="skill-bar"><span style="--w:72%"></span></div><small>72%</small></div>
+            </div>
+          </div>
+
+          <!-- Frontend -->
+          <div class="tab-panel" id="panel-frontend" role="tabpanel" aria-labelledby="tab-frontend">
+            <div class="skills-grid">
+              <div class="skill-card glass reveal-up"><div class="skill-icon">⚛️</div><h3>React.js</h3><div class="skill-bar"><span style="--w:95%"></span></div><small>95%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.05s"><div class="skill-icon">🟨</div><h3>JavaScript</h3><div class="skill-bar"><span style="--w:93%"></span></div><small>93%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.1s"><div class="skill-icon">🔵</div><h3>TypeScript</h3><div class="skill-bar"><span style="--w:85%"></span></div><small>85%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.15s"><div class="skill-icon">🟩</div><h3>Vue.js</h3><div class="skill-bar"><span style="--w:78%"></span></div><small>78%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.2s"><div class="skill-icon">▲</div><h3>Next.js</h3><div class="skill-bar"><span style="--w:88%"></span></div><small>88%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.25s"><div class="skill-icon">🎨</div><h3>Tailwind CSS</h3><div class="skill-bar"><span style="--w:90%"></span></div><small>90%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.3s"><div class="skill-icon">📦</div><h3>Redux</h3><div class="skill-bar"><span style="--w:82%"></span></div><small>82%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.35s"><div class="skill-icon">🌐</div><h3>HTML/CSS</h3><div class="skill-bar"><span style="--w:98%"></span></div><small>98%</small></div>
+            </div>
+          </div>
+
+          <!-- Mobile -->
+          <div class="tab-panel" id="panel-mobile" role="tabpanel" aria-labelledby="tab-mobile">
+            <div class="skills-grid">
+              <div class="skill-card glass reveal-up"><div class="skill-icon">🦋</div><h3>Flutter</h3><div class="skill-bar"><span style="--w:90%"></span></div><small>90%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.05s"><div class="skill-icon">📱</div><h3>React Native</h3><div class="skill-bar"><span style="--w:85%"></span></div><small>85%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.1s"><div class="skill-icon">🎯</div><h3>Dart</h3><div class="skill-bar"><span style="--w:88%"></span></div><small>88%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.15s"><div class="skill-icon">🍎</div><h3>iOS (Swift)</h3><div class="skill-bar"><span style="--w:55%"></span></div><small>55%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.2s"><div class="skill-icon">🤖</div><h3>Android</h3><div class="skill-bar"><span style="--w:60%"></span></div><small>60%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.25s"><div class="skill-icon">🔔</div><h3>Firebase</h3><div class="skill-bar"><span style="--w:85%"></span></div><small>85%</small></div>
+            </div>
+          </div>
+
+          <!-- Tools -->
+          <div class="tab-panel" id="panel-tools" role="tabpanel" aria-labelledby="tab-tools">
+            <div class="skills-grid">
+              <div class="skill-card glass reveal-up"><div class="skill-icon">🐙</div><h3>Git / GitHub</h3><div class="skill-bar"><span style="--w:95%"></span></div><small>95%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.05s"><div class="skill-icon">🐳</div><h3>Docker</h3><div class="skill-bar"><span style="--w:80%"></span></div><small>80%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.1s"><div class="skill-icon">☁️</div><h3>AWS</h3><div class="skill-bar"><span style="--w:75%"></span></div><small>75%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.15s"><div class="skill-icon">🔧</div><h3>CI/CD</h3><div class="skill-bar"><span style="--w:78%"></span></div><small>78%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.2s"><div class="skill-icon">📮</div><h3>Postman</h3><div class="skill-bar"><span style="--w:92%"></span></div><small>92%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.25s"><div class="skill-icon">🎛️</div><h3>Linux</h3><div class="skill-bar"><span style="--w:72%"></span></div><small>72%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.3s"><div class="skill-icon">🎨</div><h3>Figma</h3><div class="skill-bar"><span style="--w:70%"></span></div><small>70%</small></div>
+              <div class="skill-card glass reveal-up" style="--delay:.35s"><div class="skill-icon">🔁</div><h3>Nginx</h3><div class="skill-bar"><span style="--w:68%"></span></div><small>68%</small></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════ PROJECTS ═══════════════════════════ -->
+    <section id="projects" class="section" aria-labelledby="projects-heading">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-tag">What I've built</p>
+          <h2 id="projects-heading" class="section-title">Featured Projects</h2>
+        </div>
+
+        <div class="project-filters reveal-up" role="group" aria-label="Filter projects">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="web">Web</button>
+          <button class="filter-btn" data-filter="mobile">Mobile</button>
+          <button class="filter-btn" data-filter="fullstack">Full Stack</button>
+        </div>
+
+        <div class="projects-grid" id="projects-grid">
+
+          <article class="project-card glass reveal-up" data-category="fullstack">
+            <div class="project-img-wrap">
+              <div class="project-img" style="background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 50%,#0d47a1 100%)">
+                <span class="project-emoji">🛒</span>
+              </div>
+              <div class="project-overlay">
+                <a href="#" class="btn btn-ghost btn-sm" aria-label="Live demo">Live ↗</a>
+                <a href="#" class="btn btn-ghost btn-sm" aria-label="GitHub repo">GitHub ↗</a>
+              </div>
+            </div>
+            <div class="project-body">
+              <div class="project-tags"><span>React</span><span>Node.js</span><span>MongoDB</span></div>
+              <h3>ShopNest E-Commerce</h3>
+              <p>Full-featured multi-vendor e-commerce platform with real-time inventory, Stripe payments, and analytics dashboard.</p>
+            </div>
+          </article>
+
+          <article class="project-card glass reveal-up" data-category="mobile" style="--delay:.1s">
+            <div class="project-img-wrap">
+              <div class="project-img" style="background:linear-gradient(135deg,#0a0a0a 0%,#1b2838 50%,#00897b 100%)">
+                <span class="project-emoji">💊</span>
+              </div>
+              <div class="project-overlay">
+                <a href="#" class="btn btn-ghost btn-sm">Live ↗</a>
+                <a href="#" class="btn btn-ghost btn-sm">GitHub ↗</a>
+              </div>
+            </div>
+            <div class="project-body">
+              <div class="project-tags"><span>Flutter</span><span>Firebase</span><span>Dart</span></div>
+              <h3>MediTrack Health App</h3>
+              <p>Cross-platform health management app with medication reminders, doctor appointments, and lab report tracking.</p>
+            </div>
+          </article>
+
+          <article class="project-card glass reveal-up" data-category="web" style="--delay:.2s">
+            <div class="project-img-wrap">
+              <div class="project-img" style="background:linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 50%,#6a1b9a 100%)">
+                <span class="project-emoji">📊</span>
+              </div>
+              <div class="project-overlay">
+                <a href="#" class="btn btn-ghost btn-sm">Live ↗</a>
+                <a href="#" class="btn btn-ghost btn-sm">GitHub ↗</a>
+              </div>
+            </div>
+            <div class="project-body">
+              <div class="project-tags"><span>Vue.js</span><span>Laravel</span><span>MySQL</span></div>
+              <h3>AnalytiX Dashboard</h3>
+              <p>Business intelligence dashboard with real-time charts, KPI tracking, and customizable reporting for SMEs.</p>
+            </div>
+          </article>
+
+          <article class="project-card glass reveal-up" data-category="fullstack" style="--delay:.05s">
+            <div class="project-img-wrap">
+              <div class="project-img" style="background:linear-gradient(135deg,#0a0a0a 0%,#212121 50%,#e65100 100%)">
+                <span class="project-emoji">🏠</span>
+              </div>
+              <div class="project-overlay">
+                <a href="#" class="btn btn-ghost btn-sm">Live ↗</a>
+                <a href="#" class="btn btn-ghost btn-sm">GitHub ↗</a>
+              </div>
+            </div>
+            <div class="project-body">
+              <div class="project-tags"><span>Next.js</span><span>Node.js</span><span>PostgreSQL</span></div>
+              <h3>RealEste Property Portal</h3>
+              <p>Property listing platform with map integration, virtual tours, mortgage calculator, and agent CRM module.</p>
+            </div>
+          </article>
+
+          <article class="project-card glass reveal-up" data-category="mobile" style="--delay:.15s">
+            <div class="project-img-wrap">
+              <div class="project-img" style="background:linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 50%,#1565c0 100%)">
+                <span class="project-emoji">💬</span>
+              </div>
+              <div class="project-overlay">
+                <a href="#" class="btn btn-ghost btn-sm">Live ↗</a>
+                <a href="#" class="btn btn-ghost btn-sm">GitHub ↗</a>
+              </div>
+            </div>
+            <div class="project-body">
+              <div class="project-tags"><span>React Native</span><span>Socket.io</span><span>Redis</span></div>
+              <h3>ChatFlow Messenger</h3>
+              <p>Real-time messaging app with end-to-end encryption, group chats, voice messages, and file sharing.</p>
+            </div>
+          </article>
+
+          <article class="project-card glass reveal-up" data-category="web" style="--delay:.25s">
+            <div class="project-img-wrap">
+              <div class="project-img" style="background:linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 50%,#2e7d32 100%)">
+                <span class="project-emoji">🍕</span>
+              </div>
+              <div class="project-overlay">
+                <a href="#" class="btn btn-ghost btn-sm">Live ↗</a>
+                <a href="#" class="btn btn-ghost btn-sm">GitHub ↗</a>
+              </div>
+            </div>
+            <div class="project-body">
+              <div class="project-tags"><span>React</span><span>Laravel</span><span>Stripe</span></div>
+              <h3>FoodHub Delivery</h3>
+              <p>Food ordering platform with live order tracking, restaurant management panel, and driver mobile app.</p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════ EXPERIENCE ═══════════════════════════ -->
+    <section id="experience" class="section section-dark" aria-labelledby="exp-heading">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-tag">My journey</p>
+          <h2 id="exp-heading" class="section-title">Work Experience</h2>
+        </div>
+
+        <div class="timeline">
+
+          <div class="timeline-item reveal-up">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card glass">
+              <div class="timeline-header">
+                <div>
+                  <h3>Senior Full Stack Developer</h3>
+                  <p class="timeline-company">TechCorp Solutions Pvt. Ltd.</p>
+                </div>
+                <div class="timeline-meta">
+                  <span class="timeline-date">Jan 2023 – Present</span>
+                  <span class="timeline-tag current">Current</span>
+                </div>
+              </div>
+              <p class="timeline-ctc">₹ 18 LPA</p>
+              <ul class="timeline-points">
+                <li>Led development of 5+ enterprise-grade web applications serving 100k+ daily users</li>
+                <li>Architected microservices with Node.js & Docker reducing system downtime by 40%</li>
+                <li>Mentored a team of 6 junior developers and conducted weekly code reviews</li>
+                <li>Implemented CI/CD pipelines using GitHub Actions cutting deployment time by 60%</li>
+              </ul>
+              <div class="timeline-tech"><span>React</span><span>Node.js</span><span>AWS</span><span>Docker</span></div>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal-up" style="--delay:.1s">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card glass">
+              <div class="timeline-header">
+                <div>
+                  <h3>Full Stack Developer</h3>
+                  <p class="timeline-company">InnovateTech Pvt. Ltd.</p>
+                </div>
+                <div class="timeline-meta">
+                  <span class="timeline-date">Mar 2021 – Dec 2022</span>
+                </div>
+              </div>
+              <p class="timeline-ctc">₹ 12 LPA</p>
+              <ul class="timeline-points">
+                <li>Built and shipped 10+ client projects using React.js, Laravel, and Flutter</li>
+                <li>Integrated third-party APIs (Razorpay, Twilio, Google Maps) across multiple products</li>
+                <li>Optimized database queries reducing API response times by 35%</li>
+              </ul>
+              <div class="timeline-tech"><span>Flutter</span><span>Laravel</span><span>Vue.js</span><span>MySQL</span></div>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal-up" style="--delay:.2s">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card glass">
+              <div class="timeline-header">
+                <div>
+                  <h3>Junior Web Developer</h3>
+                  <p class="timeline-company">StartupHub India</p>
+                </div>
+                <div class="timeline-meta">
+                  <span class="timeline-date">Jul 2019 – Feb 2021</span>
+                </div>
+              </div>
+              <p class="timeline-ctc">₹ 5.5 LPA</p>
+              <ul class="timeline-points">
+                <li>Developed responsive frontends with HTML, CSS, JavaScript and Bootstrap</li>
+                <li>Contributed to backend APIs with PHP/Laravel for various client projects</li>
+                <li>Collaborated closely with UI/UX teams to rapidly prototype features</li>
+              </ul>
+              <div class="timeline-tech"><span>PHP</span><span>Laravel</span><span>jQuery</span><span>Bootstrap</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════ EDUCATION ═══════════════════════════ -->
+    <section id="education" class="section" aria-labelledby="edu-heading">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-tag">My academics</p>
+          <h2 id="edu-heading" class="section-title">Education</h2>
+        </div>
+
+        <div class="edu-grid">
+
+          <div class="edu-card glass reveal-up">
+            <div class="edu-icon">🎓</div>
+            <div class="edu-body">
+              <h3>B.E. in Computer Engineering</h3>
+              <p class="edu-inst">Sardar Vallabhbhai National Institute of Technology (SVNIT), Surat</p>
+              <div class="edu-meta">
+                <span>2015 – 2019</span>
+                <span class="edu-grade">CGPA: 8.4 / 10</span>
+              </div>
+              <ul class="edu-points">
+                <li>Specialized in Software Engineering &amp; Distributed Systems</li>
+                <li>Final year project: Multi-tenant SaaS ERP (Best Project Award 🏆)</li>
+                <li>Technical lead of college coding club</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="edu-card glass reveal-up" style="--delay:.1s">
+            <div class="edu-icon">📚</div>
+            <div class="edu-body">
+              <h3>Higher Secondary (Science – PCM)</h3>
+              <p class="edu-inst">Shree Swaminarayan School, Surat</p>
+              <div class="edu-meta">
+                <span>2013 – 2015</span>
+                <span class="edu-grade">Percentage: 89.4%</span>
+              </div>
+              <ul class="edu-points">
+                <li>Physics, Chemistry &amp; Mathematics core stream</li>
+                <li>District-level Math Olympiad winner</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="edu-card glass reveal-up" style="--delay:.2s">
+            <div class="edu-icon">📜</div>
+            <div class="edu-body">
+              <h3>Certifications</h3>
+              <p class="edu-inst">Professional Certifications</p>
+              <ul class="cert-list">
+                <li><span class="cert-badge">AWS</span> AWS Certified Solutions Architect</li>
+                <li><span class="cert-badge">Meta</span> Meta React Developer Certificate</li>
+                <li><span class="cert-badge">Google</span> Google IT Automation with Python</li>
+                <li><span class="cert-badge">MongoDB</span> MongoDB Certified Developer</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════ TESTIMONIALS ═══════════════════════════ -->
+    <section id="testimonials" class="section section-dark" aria-labelledby="test-heading">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-tag">What others say</p>
+          <h2 id="test-heading" class="section-title">Testimonials</h2>
+        </div>
+
+        <div class="testimonials-wrapper reveal-up">
+          <div class="testimonials-track" id="testimonials-track">
+
+            <div class="testimonial-card glass">
+              <div class="test-quote">❝</div>
+              <p>"Kalpesh is one of the most talented developers I've worked with. His ability to understand complex requirements and translate them into clean, scalable code is exceptional. He delivered our e-commerce platform 2 weeks ahead of schedule."</p>
+              <div class="test-author">
+                <div class="test-avatar" style="background:linear-gradient(135deg,#1565c0,#42a5f5)">RS</div>
+                <div>
+                  <strong>Rajesh Sharma</strong>
+                  <small>CEO, ShopNest Technologies</small>
+                </div>
+                <div class="test-stars">★★★★★</div>
+              </div>
+            </div>
+
+            <div class="testimonial-card glass">
+              <div class="test-quote">❝</div>
+              <p>"Working with Kalpesh was a great experience. He built our Flutter app from scratch and it now has 50k+ downloads on the Play Store. He's proactive, communicates well, and always delivers quality work."</p>
+              <div class="test-author">
+                <div class="test-avatar" style="background:linear-gradient(135deg,#00897b,#4db6ac)">PM</div>
+                <div>
+                  <strong>Priya Mehta</strong>
+                  <small>Product Manager, HealthTech India</small>
+                </div>
+                <div class="test-stars">★★★★★</div>
+              </div>
+            </div>
+
+            <div class="testimonial-card glass">
+              <div class="test-quote">❝</div>
+              <p>"Kalpesh restructured our entire backend architecture. Response times dropped from 3s to under 200ms. His deep knowledge of Node.js, Redis caching, and AWS made all the difference. Highly recommended!"</p>
+              <div class="test-author">
+                <div class="test-avatar" style="background:linear-gradient(135deg,#6a1b9a,#ab47bc)">AK</div>
+                <div>
+                  <strong>Ankit Kumar</strong>
+                  <small>CTO, AnalytiX Corp</small>
+                </div>
+                <div class="test-stars">★★★★★</div>
+              </div>
+            </div>
+
+            <div class="testimonial-card glass">
+              <div class="test-quote">❝</div>
+              <p>"We hired Kalpesh as a freelancer and ended up offering him a full-time role. His work ethic, passion for code quality, and ability to ship fast while maintaining standards is truly impressive."</p>
+              <div class="test-author">
+                <div class="test-avatar" style="background:linear-gradient(135deg,#e65100,#ff8f00)">NP</div>
+                <div>
+                  <strong>Neha Patel</strong>
+                  <small>Founder, RealEste Ventures</small>
+                </div>
+                <div class="test-stars">★★★★★</div>
+              </div>
+            </div>
+
+            <div class="testimonial-card glass">
+              <div class="test-quote">❝</div>
+              <p>"Kalpesh led the frontend team for our SaaS dashboard project. The UI is incredibly polished and the performance metrics are off the charts. Our users love it and churn dropped by 25% after launch."</p>
+              <div class="test-author">
+                <div class="test-avatar" style="background:linear-gradient(135deg,#2e7d32,#66bb6a)">VD</div>
+                <div>
+                  <strong>Vikram Desai</strong>
+                  <small>Head of Product, FoodHub</small>
+                </div>
+                <div class="test-stars">★★★★★</div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="test-controls">
+            <button class="test-btn" id="test-prev" aria-label="Previous testimonial">&#8592;</button>
+            <div class="test-dots" id="test-dots" role="tablist" aria-label="Testimonials"></div>
+            <button class="test-btn" id="test-next" aria-label="Next testimonial">&#8594;</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════ CONTACT ═══════════════════════════ -->
+    <section id="contact" class="section" aria-labelledby="contact-heading">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-tag">Get in touch</p>
+          <h2 id="contact-heading" class="section-title">Let's Work Together</h2>
+          <p class="section-desc">Have a project in mind? I'd love to hear about it. Drop me a message and I'll get back within 24 hours.</p>
+        </div>
+
+        <div class="contact-grid">
+
+          <div class="contact-info reveal-left">
+            <div class="contact-item glass">
+              <span class="contact-icon">📧</span>
+              <div>
+                <strong>Email</strong>
+                <a href="mailto:kalpesh.bavaliya@gmail.com">kalpesh.bavaliya@gmail.com</a>
+              </div>
+            </div>
+            <div class="contact-item glass">
+              <span class="contact-icon">📱</span>
+              <div>
+                <strong>Phone</strong>
+                <a href="tel:+919825000000">+91 98250 00000</a>
+              </div>
+            </div>
+            <div class="contact-item glass">
+              <span class="contact-icon">📍</span>
+              <div>
+                <strong>Location</strong>
+                <span>Surat, Gujarat, India</span>
+              </div>
+            </div>
+            <div class="contact-item glass">
+              <span class="contact-icon">💼</span>
+              <div>
+                <strong>Current CTC</strong>
+                <span>₹ 18 LPA</span>
+              </div>
+            </div>
+
+            <div class="contact-social">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.37V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.35-1.85 3.59 0 4.25 2.36 4.25 5.43v6.31zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM6.62 20.45H4.06V9h2.56v11.45zM22.23 0H1.77C.8 0 0 .77 0 1.72v20.56C0 23.23.8 24 1.77 24h20.46C23.2 24 24 23.23 24 22.28V1.72C24 .77 23.2 0 22.23 0z"/></svg>
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Twitter/X">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.24 3H21.5l-7.19 8.22L22.88 21h-6.62l-5.19-6.79L4.93 21H1.65l7.7-8.8L1.12 3h6.79l4.69 6.2L18.24 3zm-1.15 16.2h1.85L6.96 4.84H5l11.09 14.36z"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <form class="contact-form glass reveal-right" id="contact-form" novalidate aria-label="Contact form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="John Doe" required autocomplete="name" />
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="john@example.com" required autocomplete="email" />
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <input type="text" id="subject" name="subject" placeholder="Project Inquiry" required />
+              <span class="form-error" aria-live="polite"></span>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" placeholder="Tell me about your project..." required></textarea>
+              <span class="form-error" aria-live="polite"></span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full" id="submit-btn">
+              <span class="btn-text">Send Message</span>
+              <span class="btn-spinner" aria-hidden="true"></span>
+            </button>
+            <div class="form-success" id="form-success" role="alert" aria-live="polite"></div>
+          </form>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+  <footer id="footer" aria-label="Footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="footer-logo">KB</span>
+          <p>Full Stack Developer crafting digital experiences that matter.</p>
+          <p class="footer-ctc">₹ 18 LPA · Open to Senior / Lead roles</p>
+        </div>
+        <div class="footer-links">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#experience">Experience</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>More</h4>
+          <ul>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <a href="mailto:kalpesh.bavaliya@gmail.com">kalpesh.bavaliya@gmail.com</a>
+          <a href="tel:+919825000000">+91 98250 00000</a>
+          <div class="footer-social">
+            <a href="https://github.com" target="_blank" rel="noopener" aria-label="GitHub">GH</a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">LI</a>
+            <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter">X</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© <span id="year"></span> Kalpesh Bavaliya. All rights reserved.</p>
+        <p>Designed &amp; Built with ❤️</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to top -->
+  <button id="back-to-top" aria-label="Back to top" title="Back to top">↑</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
