@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <meta name="description" content="Kalpesh Bavaliya – Full Stack Developer. Building scalable web & mobile apps." />
+    <meta name="description"
+        content="Kalpesh Bavaliya – Full Stack Developer. Building scalable web &amp; mobile apps." />
     <title>Kalpesh Bavaliya · Full Stack Developer</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -19,11 +20,14 @@
 
 <body>
 
+    <!-- GLOBAL PARTICLE CANVAS (fixed, full-page) -->
+    <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
     <!-- CUSTOM CURSOR -->
     <div id="cursor-dot" aria-hidden="true"></div>
     <div id="cursor-ring" aria-hidden="true"></div>
 
-    <!-- SCROLL PROGRESS STRIP (no percentage text) -->
+    <!-- SCROLL PROGRESS STRIP -->
     <div id="scroll-bar" aria-hidden="true">
         <div id="scroll-fill"></div>
     </div>
@@ -40,7 +44,9 @@
     <nav id="navbar" aria-label="Main navigation">
         <div class="nav-container">
             <a href="#hero" class="nav-logo" aria-label="Home">KB</a>
-            <ul class="nav-links" id="nav-links" role="list">
+
+            <!-- Desktop links (inline) -->
+            <ul class="nav-links-desktop" id="nav-links-desktop" role="list">
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#skills" class="nav-link">Skills</a></li>
                 <li><a href="#projects" class="nav-link">Projects</a></li>
@@ -50,117 +56,78 @@
                 <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
                 <li><a href="resume.pdf" target="_blank" rel="noopener" class="nav-cta">Get Resume</a></li>
             </ul>
+
+            <!-- Hamburger (mobile) -->
             <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false"
-                aria-controls="nav-links">
+                aria-controls="side-nav">
                 <span></span><span></span><span></span>
             </button>
         </div>
     </nav>
 
+    <!-- SIDE NAVIGATION DRAWER (mobile) -->
+    <div id="nav-overlay" aria-hidden="true"></div>
+    <aside id="side-nav" aria-label="Mobile navigation" aria-hidden="true">
+        <div class="side-nav-header">
+            <span class="side-nav-logo">KB</span>
+            <button id="nav-close" aria-label="Close menu">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+        <ul class="side-nav-links" id="side-nav-links" role="list">
+            <li><a href="#about" class="side-nav-link">About</a></li>
+            <li><a href="#skills" class="side-nav-link">Skills</a></li>
+            <li><a href="#projects" class="side-nav-link">Projects</a></li>
+            <li><a href="#experience" class="side-nav-link">Experience</a></li>
+            <li><a href="#education" class="side-nav-link">Education</a></li>
+            <li><a href="#life-at" class="side-nav-link">Life At</a></li>
+            <li><a href="#testimonials" class="side-nav-link">Testimonials</a></li>
+        </ul>
+        <a href="resume.pdf" target="_blank" rel="noopener" class="side-nav-cta">Get Resume ↗</a>
+        <div class="side-nav-footer">
+            <span>Full Stack Developer</span>
+            <span>Surat, India</span>
+        </div>
+    </aside>
+
     <main>
 
-        <!-- ══ HERO ══ -->
+        <!-- ══ HERO (Static – Slide 1) ══ -->
         <section id="hero" aria-label="Hero">
-            <canvas id="hero-canvas" aria-hidden="true"></canvas>
+            <div class="slide-bg bg-aurora"></div>
 
-            <!-- Slides rendered by JS from KB.taglines + KB.heroStats + KB.techPills -->
-            <div class="hero-track" id="hero-track">
-
-                <!-- Slide 1 – Intro -->
-                <div class="hero-slide" id="slide-0">
-                    <div class="slide-bg bg-aurora"></div>
-                    <div class="hero-split">
-                        <div class="hero-img-col">
-                            <div class="portrait-wrap">
-                                <img src="images/kalpesh-portfolio.png" alt="Kalpesh Bavaliya" id="hero-photo" />
-                                <div class="portrait-ring r1"></div>
-                                <div class="portrait-ring r2"></div>
-                                <div class="portrait-glow"></div>
-                            </div>
-                        </div>
-                        <div class="hero-text-col">
-                            <span class="hero-badge"><span class="live-dot"></span>Available for work</span>
-                            <h1 class="hero-name">
-                                <span class="hero-first">Kalpesh</span>
-                                <span class="hero-last">Bavaliya</span>
-                            </h1>
-                            <p class="hero-role">I build&nbsp;<span class="typewriter" id="typewriter"></span></p>
-                            <p class="hero-sub">Full Stack Developer &middot; 5+ years &middot; Surat, India</p>
-                            <div class="hero-actions">
-                                <a href="#projects" class="btn btn-primary">View Projects</a>
-                                <a href="#contact" class="btn btn-ghost">Let's Talk &rarr;</a>
-                            </div>
-                        </div>
+            <div class="hero-split">
+                <div class="hero-img-col">
+                    <div class="portrait-wrap">
+                        <img src="images/kalpesh-portfolio.png" alt="Kalpesh Bavaliya" id="hero-photo" />
+                        <div class="portrait-glow"></div>
                     </div>
                 </div>
-
-                <!-- Slide 2 – Stats -->
-                <div class="hero-slide" id="slide-1">
-                    <div class="slide-bg bg-mesh"></div>
-                    <div class="hero-split">
-                        <div class="hero-img-col">
-                            <div class="portrait-wrap">
-                                <img src="images/kalpesh-portfolio.png" alt="Kalpesh Bavaliya" class="mono" />
-                                <div class="portrait-ring r1"></div>
-                                <div class="portrait-glow teal"></div>
-                                <div class="code-overlay" aria-hidden="true">
-                                    <span>&lt;dev&gt;</span><span>.build()</span><span>async/await</span>
-                                    <span>{ }</span><span>npm run</span><span>git push</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="hero-text-col">
-                            <span class="section-tag mb-1">By the numbers</span>
-                            <h2 class="slide-heading">Crafting Code,<br>Delivering Impact</h2>
-                            <div class="hero-stats" id="hero-stats">
-                                <!-- Rendered by JS from KB.heroStats -->
-                            </div>
-                            <a href="#about" class="btn btn-ghost mt-2">Explore More &darr;</a>
-                        </div>
+                <div class="hero-text-col">
+                    <span class="hero-badge"><span class="live-dot"></span>Available for work</span>
+                    <h1 class="hero-name">
+                        <span class="hero-first">Kalpesh</span>
+                        <span class="hero-last">Bavaliya</span>
+                    </h1>
+                    <p class="hero-role">I build&nbsp;<span class="typewriter" id="typewriter"></span></p>
+                    <p class="hero-sub">Full Stack Developer &middot; 5+ years &middot; Surat, India</p>
+                    <div class="hero-actions">
+                        <a href="#projects" class="btn btn-primary">View Projects</a>
+                        <a href="#contact" class="btn btn-ghost">Let's Talk &rarr;</a>
                     </div>
                 </div>
-
-                <!-- Slide 3 – Tagline -->
-                <div class="hero-slide" id="slide-2">
-                    <div class="slide-bg bg-glow"></div>
-                    <div class="hero-split">
-                        <div class="hero-img-col">
-                            <div class="portrait-wrap circle-mode">
-                                <img src="images/kalpesh-portfolio.png" alt="Kalpesh Bavaliya" class="circle-img" />
-                                <div class="portrait-ring r1 spin"></div>
-                                <div class="portrait-ring r2 spin-rev"></div>
-                            </div>
-                        </div>
-                        <div class="hero-text-col">
-                            <span class="slide-eyebrow">Full Stack Developer</span>
-                            <h2 class="slide-tagline">"Code is poetry.<br>I write epics."</h2>
-                            <div class="tech-pills" id="tech-pills">
-                                <!-- Rendered by JS from KB.techPills -->
-                            </div>
-                            <div class="hero-actions mt-2">
-                                <a href="#skills" class="btn btn-primary">My Tech Stack</a>
-                                <a href="resume.pdf" target="_blank" class="btn btn-ghost">Get Resume</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div><!-- /hero-track -->
-
-            <!-- Controls -->
-            <div class="hero-controls" aria-label="Slide navigation">
-                <button class="slide-arrow" id="slide-prev" aria-label="Previous slide">&#8592;</button>
-                <div class="slide-dots" id="slide-dots" role="tablist"></div>
-                <button class="slide-arrow" id="slide-next" aria-label="Next slide">&#8594;</button>
             </div>
-
-            <div class="slide-progress-line"><span id="slide-prog"></span></div>
 
             <div class="hero-scroll-hint" aria-hidden="true">
                 <span>scroll</span>
                 <div class="scroll-line"></div>
             </div>
         </section>
+
 
         <!-- ══ ABOUT ══ -->
         <section id="about" class="section" aria-labelledby="about-h">
@@ -192,7 +159,7 @@
                     <p class="section-tag">What I work with</p>
                     <h2 id="skills-h" class="section-title">Skills &amp; Tech Stack</h2>
                 </div>
-                <div class="skills-carousel-wrapper reveal-up">
+                <div class="skills-scroll-wrapper reveal-up">
                     <button class="arrow-btn" id="skill-prev" aria-label="Previous">&#8592;</button>
                     <div class="skills-viewport" id="skills-viewport">
                         <div class="skills-track" id="skills-track">
@@ -201,7 +168,7 @@
                     </div>
                     <button class="arrow-btn" id="skill-next" aria-label="Next">&#8594;</button>
                 </div>
-                <div class="carousel-dots" id="skills-dots" role="tablist"></div>
+                <div class="scroll-dots" id="skills-dots" role="tablist"></div>
             </div>
         </section>
 
@@ -272,17 +239,17 @@
                     <p class="section-tag">What others say</p>
                     <h2 id="test-h" class="section-title">Testimonials</h2>
                 </div>
-                <div class="test-carousel-wrapper reveal-up">
-                    <div class="test-viewport">
+                <div class="test-scroll-wrapper reveal-up">
+                    <div class="test-viewport" id="test-viewport">
                         <div class="test-track" id="test-track">
                             <!-- Rendered by JS from KB.testimonials -->
                         </div>
                     </div>
-                    <div class="test-controls">
-                        <button class="arrow-btn" id="test-prev" aria-label="Previous">&#8592;</button>
-                        <div class="carousel-dots" id="test-dots" role="tablist"></div>
-                        <button class="arrow-btn" id="test-next" aria-label="Next">&#8594;</button>
-                    </div>
+                </div>
+                <div class="test-controls">
+                    <button class="arrow-btn" id="test-prev" aria-label="Previous">&#8592;</button>
+                    <div class="scroll-dots" id="test-dots" role="tablist"></div>
+                    <button class="arrow-btn" id="test-next" aria-label="Next">&#8594;</button>
                 </div>
             </div>
         </section>
@@ -393,7 +360,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© <span id="year"></span> Kalpesh Bavaliya. All rights reserved.</p>
+                <p>&copy; <span id="year"></span> Kalpesh Bavaliya. All rights reserved.</p>
                 <p>Designed &amp; Built with ❤️</p>
             </div>
         </div>

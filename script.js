@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════
-   KALPESH BAVALIYA – PORTFOLIO JS v3
+   KALPESH BAVALIYA – PORTFOLIO JS v4
    Reads from data.js (KB object) · Vanilla JS only
 ═══════════════════════════════════════════════════════ */
 'use strict';
@@ -16,42 +16,88 @@ function initLoader() {
   on(window, 'load', () => setTimeout(() => l.classList.add('hidden'), 1800));
 }
 
-/* ════ CANVAS PARTICLES ════ */
+/* ════ GLOBAL PARTICLE CANVAS (fixed, full-page) ════ */
 function initCanvas() {
-  const canvas = $('#hero-canvas');
+  const canvas = $('#particle-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   let W, H, particles = [], mouse = { x: null, y: null }, animId;
-  const N = 65, SP = .3, CR = 1.7, CD = 125;
+  const N = 80, SP = .25, CR = 1.5, CD = 130;
 
-  function resize() { W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight }
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
 
   class P {
     constructor() { this.reset() }
-    reset() { this.x = Math.random() * W; this.y = Math.random() * H; this.vx = (Math.random() - .5) * SP; this.vy = (Math.random() - .5) * SP; this.r = Math.random() * CR + .4 }
-    update() { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > W) this.vx *= -1; if (this.y < 0 || this.y > H) this.vy *= -1 }
-    draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2); ctx.fillStyle = 'rgba(0,113,227,.65)'; ctx.fill() }
+    reset() {
+      this.x = Math.random() * W;
+      this.y = Math.random() * H;
+      this.vx = (Math.random() - .5) * SP;
+      this.vy = (Math.random() - .5) * SP;
+      this.r = Math.random() * CR + .4;
+    }
+    update() {
+      this.x += this.vx; this.y += this.vy;
+      if (this.x < 0 || this.x > W) this.vx *= -1;
+      if (this.y < 0 || this.y > H) this.vy *= -1;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0,113,227,.55)';
+      ctx.fill();
+    }
   }
 
   function connect() {
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
         const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y, d = Math.hypot(dx, dy);
-        if (d < CD) { ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.strokeStyle = `rgba(0,113,227,${(1 - d / CD) * .3})`; ctx.lineWidth = .5; ctx.stroke() }
+        if (d < CD) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(0,113,227,${(1 - d / CD) * .25})`;
+          ctx.lineWidth = .5;
+          ctx.stroke();
+        }
       }
-      if (mouse.x) { const dx = particles[i].x - mouse.x, dy = particles[i].y - mouse.y, d = Math.hypot(dx, dy); if (d < 170) { ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(mouse.x, mouse.y); ctx.strokeStyle = `rgba(41,151,255,${(1 - d / 170) * .5})`; ctx.lineWidth = .65; ctx.stroke() } }
+      if (mouse.x !== null) {
+        const dx = particles[i].x - mouse.x, dy = particles[i].y - mouse.y, d = Math.hypot(dx, dy);
+        if (d < 180) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.strokeStyle = `rgba(41,151,255,${(1 - d / 180) * .45})`;
+          ctx.lineWidth = .65;
+          ctx.stroke();
+        }
+      }
     }
   }
 
-  function loop() { ctx.clearRect(0, 0, W, H); particles.forEach(p => { p.update(); p.draw() }); connect(); animId = requestAnimationFrame(loop) }
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => { p.update(); p.draw(); });
+    connect();
+    animId = requestAnimationFrame(loop);
+  }
 
-  const hero = $('#hero');
   on(window, 'resize', resize);
-  on(hero, 'mousemove', e => { const r = canvas.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top });
-  on(hero, 'mouseleave', () => { mouse.x = null });
-  const obs = new IntersectionObserver(([e]) => { e.isIntersecting ? loop() : cancelAnimationFrame(animId) }, { threshold: 0 });
-  obs.observe(hero);
-  resize(); particles = Array.from({ length: N }, () => new P());
+  on(document, 'mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  on(document, 'mouseleave', () => { mouse.x = null; });
+
+  // Pause when tab hidden to save CPU
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) cancelAnimationFrame(animId);
+    else loop();
+  });
+
+  resize();
+  particles = Array.from({ length: N }, () => new P());
+  loop();
 }
 
 /* ════ TYPEWRITER ════ */
@@ -69,17 +115,18 @@ function initTypewriter() {
   setTimeout(tick, 900);
 }
 
-/* ════ HERO SLIDER ════ */
-function initHeroSlider() {
-  const track = $('#hero-track');
-  const dots = $('#slide-dots');
-  const prev = $('#slide-prev');
-  const next = $('#slide-next');
-  const prog = $('#slide-prog');
+/* ════ INFO SLIDER (Slides 2 & 3 – below hero) ════ */
+function initInfoSlider() {
+  const track = $('#info-track');
+  const dotsEl = $('#info-dots');
+  const prev = $('#info-prev');
+  const next = $('#info-next');
+  const prog = $('#info-prog');
   if (!track) return;
-  const slides = $$('.hero-slide', track);
+
+  const slides = $$('.info-slide', track);
   const TOTAL = slides.length;
-  const DUR = 5800;
+  const DUR = 6000;
   let cur = 0, animF, startTs;
 
   // Render hero stats
@@ -106,10 +153,10 @@ function initHeroSlider() {
     const b = ce('button', 'slide-dot' + (i === 0 ? ' active' : ''));
     b.setAttribute('role', 'tab'); b.setAttribute('aria-label', `Slide ${i + 1}`);
     on(b, 'click', () => goTo(i));
-    dots.appendChild(b);
+    dotsEl.appendChild(b);
   });
 
-  function updateDots(i) { $$('.slide-dot', dots).forEach((d, j) => d.classList.toggle('active', j === i)) }
+  function updateDots(i) { $$('.slide-dot', dotsEl).forEach((d, j) => d.classList.toggle('active', j === i)) }
 
   function goTo(idx) {
     slides[cur].setAttribute('aria-hidden', 'true');
@@ -134,14 +181,8 @@ function initHeroSlider() {
 
   on(prev, 'click', () => goTo(cur - 1));
   on(next, 'click', () => goTo(cur + 1));
-  on(document, 'keydown', e => {
-    if (window.scrollY < window.innerHeight * .6) {
-      if (e.key === 'ArrowRight') goTo(cur + 1);
-      if (e.key === 'ArrowLeft') goTo(cur - 1);
-    }
-  });
 
-  // Drag on hero
+  // Drag support
   addDragSupport(track, () => goTo(cur - 1), () => goTo(cur + 1));
 
   slides[0].removeAttribute('aria-hidden');
@@ -191,27 +232,61 @@ function initScrollBar() {
   }, { passive: true });
 }
 
-/* ════ NAVBAR ════ */
+/* ════ NAVBAR + SIDE NAV ════ */
 function initNavbar() {
-  const nav = $('#navbar'), ham = $('#hamburger'), menu = $('#nav-links');
+  const nav = $('#navbar');
+  const ham = $('#hamburger');
+  const sideNav = $('#side-nav');
+  const overlay = $('#nav-overlay');
+  const closeBtn = $('#nav-close');
+  const allLinks = $$('.nav-link, .side-nav-link');
+
+  // Scroll state
   on(window, 'scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 50);
     const sy = window.scrollY + 130;
     $$('section[id]').forEach(sec => {
-      const link = menu.querySelector(`a[href="#${sec.id}"]`);
+      const link = document.querySelector(`.nav-link[href="#${sec.id}"], .side-nav-link[href="#${sec.id}"]`);
       if (link) link.classList.toggle('active', sy >= sec.offsetTop && sy < sec.offsetTop + sec.offsetHeight);
     });
     const btt = $('#back-to-top');
     if (btt) btt.classList.toggle('visible', window.scrollY > 380);
   }, { passive: true });
-  on(ham, 'click', () => { const o = menu.classList.toggle('open'); ham.classList.toggle('open', o); ham.setAttribute('aria-expanded', o); document.body.style.overflow = o ? 'hidden' : '' });
-  $$('.nav-link', menu).forEach(l => on(l, 'click', () => { menu.classList.remove('open'); ham.classList.remove('open'); ham.setAttribute('aria-expanded', 'false'); document.body.style.overflow = '' }));
-  on(document, 'click', e => { if (menu.classList.contains('open') && !menu.contains(e.target) && !ham.contains(e.target)) { menu.classList.remove('open'); ham.classList.remove('open'); ham.setAttribute('aria-expanded', 'false'); document.body.style.overflow = '' } });
+
+  function openNav() {
+    sideNav.classList.add('open');
+    overlay.classList.add('open');
+    sideNav.setAttribute('aria-hidden', 'false');
+    overlay.setAttribute('aria-hidden', 'false');
+    ham.setAttribute('aria-expanded', 'true');
+    ham.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeNav() {
+    sideNav.classList.remove('open');
+    overlay.classList.remove('open');
+    sideNav.setAttribute('aria-hidden', 'true');
+    overlay.setAttribute('aria-hidden', 'true');
+    ham.setAttribute('aria-expanded', 'false');
+    ham.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  on(ham, 'click', () => sideNav.classList.contains('open') ? closeNav() : openNav());
+  on(closeBtn, 'click', closeNav);
+  on(overlay, 'click', closeNav);
+  on(document, 'keydown', e => { if (e.key === 'Escape' && sideNav.classList.contains('open')) closeNav() });
+
+  // Close on nav link click
+  $$('.side-nav-link').forEach(l => on(l, 'click', closeNav));
 }
 
 /* ════ REVEAL ════ */
 function initReveal() {
-  const obs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target) } }) }, { threshold: .1, rootMargin: '0px 0px -35px 0px' });
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target) } })
+  }, { threshold: .1, rootMargin: '0px 0px -35px 0px' });
   $$('.reveal-up,.reveal-left,.reveal-right').forEach(el => obs.observe(el));
 }
 
@@ -221,9 +296,15 @@ function initCounters() {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
       const el = e.target, target = +el.dataset.count;
-      let s = 0;
-      (function step(ts) { if (!s) s = ts; const p = Math.min((ts - s) / 1700, 1), v = 1 - Math.pow(1 - p, 3); el.textContent = Math.round(v * target); if (p < 1) requestAnimationFrame(step); else el.textContent = target })(0);
-      requestAnimationFrame(ts => { let s = 0; (function step(ts) { if (!s) s = ts; const p = Math.min((ts - s) / 1700, 1), v = 1 - Math.pow(1 - p, 3); el.textContent = Math.round(v * target); if (p < 1) requestAnimationFrame(step); else el.textContent = target })(ts) });
+      requestAnimationFrame(ts => {
+        let s = 0;
+        (function step(ts) {
+          if (!s) s = ts;
+          const p = Math.min((ts - s) / 1700, 1), v = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(v * target);
+          if (p < 1) requestAnimationFrame(step); else el.textContent = target;
+        })(ts);
+      });
       obs.unobserve(el);
     });
   }, { threshold: .5 });
@@ -256,7 +337,7 @@ function renderAbout() {
   }
 }
 
-/* ════ SKILLS CAROUSEL ════ */
+/* ════ SKILLS – HORIZONTAL DRAG SCROLL ════ */
 function renderSkills() {
   const track = $('#skills-track');
   if (!track || !KB.skills) return;
@@ -268,64 +349,75 @@ function renderSkills() {
 }
 
 function initSkillsCarousel() {
-  const track = $('#skills-track');
   const vp = $('#skills-viewport');
+  const track = $('#skills-track');
   const prev = $('#skill-prev');
   const next = $('#skill-next');
   const dotsEl = $('#skills-dots');
-  if (!track) return;
+  if (!vp || !track) return;
 
-  const cards = $$('.sc-card', track);
-  let cur = 0, pv = perView();
-  let pages = Math.ceil(cards.length / pv);
+  // Animate bars when scrolled into view
+  const barObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const bar = e.target.querySelector('.sc-bar span');
+        if (bar) { bar.classList.remove('animated'); void bar.offsetWidth; setTimeout(() => bar.classList.add('animated'), 80); }
+        barObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3, rootMargin: '0px' });
+  $$('.sc-card', track).forEach(c => barObs.observe(c));
 
-  function perView() {
-    const w = vp?.offsetWidth || window.innerWidth;
-    if (w >= 1100) return 6; if (w >= 850) return 5; if (w >= 640) return 4; if (w >= 440) return 3; return 2;
+  // Scroll step = width of 3 cards
+  function cardWidth() {
+    const c = track.firstElementChild;
+    return c ? c.offsetWidth + 16 : 186;
   }
 
+  function scrollBy(dir) {
+    const step = cardWidth() * 3;
+    vp.scrollBy({ left: dir * step, behavior: 'smooth' });
+  }
+
+  on(prev, 'click', () => scrollBy(-1));
+  on(next, 'click', () => scrollBy(1));
+
+  // Dot indicators based on scroll position
   function buildDots() {
+    if (!dotsEl) return;
     dotsEl.innerHTML = '';
+    const pages = Math.ceil(track.scrollWidth / vp.offsetWidth);
     for (let i = 0; i < pages; i++) {
-      const b = ce('button', 'c-dot' + (i === cur ? ' active' : ''));
+      const b = ce('button', 'c-dot' + (i === 0 ? ' active' : ''));
       b.setAttribute('role', 'tab'); b.setAttribute('aria-label', `Skills page ${i + 1}`);
-      on(b, 'click', () => goTo(i));
+      on(b, 'click', () => { vp.scrollTo({ left: i * vp.offsetWidth, behavior: 'smooth' }); });
       dotsEl.appendChild(b);
     }
   }
 
-  function goTo(idx) {
-    cur = Math.max(0, Math.min(idx, pages - 1));
-    const cardW = cards[0] ? cards[0].offsetWidth + 16 : 186; // 170 + 1rem gap
-    track.style.transform = `translateX(-${cur * pv * cardW}px)`;
-    // Animate bars
-    const st = cur * pv;
-    cards.forEach((c, i) => {
-      const bar = c.querySelector('.sc-bar span');
-      if (!bar) return;
-      bar.classList.remove('animated'); void bar.offsetWidth;
-      if (i >= st && i < st + pv) setTimeout(() => bar.classList.add('animated'), 80);
-    });
-    $$('.c-dot', dotsEl).forEach((d, i) => d.classList.toggle('active', i === cur));
-    if (prev) prev.disabled = cur === 0;
-    if (next) next.disabled = cur >= pages - 1;
-  }
+  on(vp, 'scroll', () => {
+    const idx = Math.round(vp.scrollLeft / vp.offsetWidth);
+    $$('.c-dot', dotsEl).forEach((d, i) => d.classList.toggle('active', i === idx));
+    if (prev) prev.disabled = vp.scrollLeft < 10;
+    if (next) next.disabled = vp.scrollLeft + vp.offsetWidth >= track.scrollWidth - 10;
+  }, { passive: true });
 
-  on(prev, 'click', () => goTo(cur - 1));
-  on(next, 'click', () => goTo(cur + 1));
+  // Pointer drag (desktop)
+  let isDragging = false, dragStartX = 0, scrollStart = 0;
+  on(vp, 'pointerdown', e => {
+    isDragging = true; dragStartX = e.clientX; scrollStart = vp.scrollLeft;
+    vp.setPointerCapture(e.pointerId); vp.classList.add('dragging');
+  });
+  on(vp, 'pointermove', e => {
+    if (!isDragging) return;
+    vp.scrollLeft = scrollStart - (e.clientX - dragStartX);
+  });
+  on(vp, 'pointerup', () => { isDragging = false; vp.classList.remove('dragging'); });
+  on(vp, 'pointercancel', () => { isDragging = false; vp.classList.remove('dragging'); });
 
-  // Drag
-  addDragSupport(track, () => goTo(cur - 1), () => goTo(cur + 1), 40);
-  track.addEventListener('pointerdown', () => track.classList.add('dragging'));
-  track.addEventListener('pointerup', () => track.classList.remove('dragging'));
-
-  on(window, 'resize', () => { const p = perView(); if (p !== pv) { pv = p; pages = Math.ceil(cards.length / pv); cur = 0; buildDots(); goTo(0) } });
-
-  // Animate on scroll into view
-  const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) goTo(0) }, { threshold: .2 });
-  const sec = $('#skills'); if (sec) obs.observe(sec);
-
-  buildDots(); if (prev) prev.disabled = true;
+  on(window, 'resize', buildDots);
+  buildDots();
+  if (prev) prev.disabled = true;
 }
 
 /* ════ RENDER PROJECTS ════ */
@@ -410,7 +502,6 @@ function renderEducation() {
       </div>`;
     grid.appendChild(d);
   });
-  // Certs card
   if (KB.certifications) {
     const d = ce('div', 'edu-card glass reveal-up');
     d.style.setProperty('--delay', `.${(KB.education || []).length}s`);
@@ -453,16 +544,31 @@ function renderLifeAt() {
 }
 
 /* ════ RENDER TESTIMONIALS ════ */
+// Default placeholder SVG avatar
+function placeholderAvatar(initials, grad) {
+  return `<div class="test-avatar-wrap" style="background:${grad}" aria-label="${initials}">
+    <svg viewBox="0 0 48 48" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="24" cy="18" r="10" fill="rgba(255,255,255,0.3)"/>
+      <ellipse cx="24" cy="40" rx="16" ry="10" fill="rgba(255,255,255,0.2)"/>
+    </svg>
+    <span class="test-initials">${initials}</span>
+  </div>`;
+}
+
 function renderTestimonials() {
   const track = $('#test-track');
   if (!track || !KB.testimonials) return;
   KB.testimonials.forEach(t => {
     const d = ce('div', 'test-card glass');
+    const avatarHTML = t.image
+      ? `<div class="test-avatar-wrap img-avatar"><img src="${t.image}" alt="${t.name}" loading="lazy" /></div>`
+      : placeholderAvatar(t.initials, t.grad);
+
     d.innerHTML = `
       <div class="test-quote">❝</div>
       <p>${t.text}</p>
       <div class="test-author">
-        <div class="test-avatar" style="background:${t.grad}">${t.initials}</div>
+        ${avatarHTML}
         <div><strong>${t.name}</strong><small>${t.role}</small></div>
         <div class="test-stars">★★★★★</div>
       </div>`;
@@ -470,45 +576,76 @@ function renderTestimonials() {
   });
 }
 
-/* ════ TESTIMONIALS CAROUSEL ════ */
+/* ════ TESTIMONIALS – HORIZONTAL DRAG SCROLL ════ */
 function initTestimonials() {
+  const vp = $('#test-viewport');
   const track = $('#test-track');
-  const dots = $('#test-dots');
   const prev = $('#test-prev');
   const next = $('#test-next');
-  if (!track) return;
-  const cards = $$('.test-card', track);
-  let cur = 0, pv = perV(), pages = Math.ceil(cards.length / pv), autoT;
+  const dotsEl = $('#test-dots');
+  if (!vp || !track) return;
 
-  function perV() { if (window.innerWidth >= 1024) return 3; if (window.innerWidth >= 640) return 2; return 1 }
+  function cardWidth() {
+    const c = track.firstElementChild;
+    return c ? c.offsetWidth + 24 : 360;
+  }
+
+  function scrollBy(dir) {
+    const pv = window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1;
+    vp.scrollBy({ left: dir * cardWidth() * pv, behavior: 'smooth' });
+  }
+
+  on(prev, 'click', () => scrollBy(-1));
+  on(next, 'click', () => scrollBy(1));
 
   function buildDots() {
-    dots.innerHTML = '';
+    if (!dotsEl) return;
+    dotsEl.innerHTML = '';
+    const cards = $$('.test-card', track);
+    const pv = window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1;
+    const pages = Math.ceil(cards.length / pv);
     for (let i = 0; i < pages; i++) {
-      const b = ce('button', 'c-dot' + (i === cur ? ' active' : ''));
+      const b = ce('button', 'c-dot' + (i === 0 ? ' active' : ''));
       b.setAttribute('role', 'tab'); b.setAttribute('aria-label', `Testimonial ${i + 1}`);
-      on(b, 'click', () => goTo(i)); dots.appendChild(b);
+      on(b, 'click', () => { vp.scrollTo({ left: i * vp.offsetWidth, behavior: 'smooth' }); });
+      dotsEl.appendChild(b);
     }
   }
 
-  function goTo(idx) {
-    cur = (idx + pages) % pages;
-    const cw = track.scrollWidth / cards.length;
-    track.style.transform = `translateX(-${cur * pv * cw}px)`;
-    $$('.c-dot', dots).forEach((d, i) => d.classList.toggle('active', i === cur));
-    clearInterval(autoT); autoT = setInterval(() => goTo(cur + 1), 4500);
-  }
+  on(vp, 'scroll', () => {
+    const idx = Math.round(vp.scrollLeft / (cardWidth()));
+    const pv = window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1;
+    const page = Math.floor(idx / pv);
+    $$('.c-dot', dotsEl).forEach((d, i) => d.classList.toggle('active', i === page));
+    if (prev) prev.disabled = vp.scrollLeft < 10;
+    if (next) next.disabled = vp.scrollLeft + vp.offsetWidth >= track.scrollWidth - 10;
+  }, { passive: true });
 
-  on(prev, 'click', () => goTo(cur - 1));
-  on(next, 'click', () => goTo(cur + 1));
+  // Pointer drag (desktop)
+  let isDragging = false, dragStartX = 0, scrollStart = 0;
+  on(vp, 'pointerdown', e => {
+    isDragging = true; dragStartX = e.clientX; scrollStart = vp.scrollLeft;
+    vp.setPointerCapture(e.pointerId); vp.classList.add('dragging');
+  });
+  on(vp, 'pointermove', e => {
+    if (!isDragging) return;
+    vp.scrollLeft = scrollStart - (e.clientX - dragStartX);
+  });
+  on(vp, 'pointerup', () => { isDragging = false; vp.classList.remove('dragging'); });
+  on(vp, 'pointercancel', () => { isDragging = false; vp.classList.remove('dragging'); });
 
-  // Drag
-  addDragSupport(track, () => goTo(cur - 1), () => goTo(cur + 1));
-  track.addEventListener('pointerdown', () => track.classList.add('dragging'));
-  track.addEventListener('pointerup', () => track.classList.remove('dragging'));
+  // Auto-advance
+  let autoT = setInterval(() => {
+    const maxScroll = track.scrollWidth - vp.offsetWidth;
+    if (vp.scrollLeft >= maxScroll - 10) vp.scrollTo({ left: 0, behavior: 'smooth' });
+    else vp.scrollBy({ left: cardWidth(), behavior: 'smooth' });
+  }, 4500);
 
-  on(window, 'resize', () => { const p = perV(); if (p !== pv) { pv = p; pages = Math.ceil(cards.length / pv); cur = 0; buildDots(); goTo(0) } });
-  buildDots(); goTo(0);
+  on(vp, 'pointerdown', () => clearInterval(autoT));
+
+  on(window, 'resize', buildDots);
+  buildDots();
+  if (prev) prev.disabled = true;
 }
 
 /* ════ CONTACT FORM ════ */
@@ -561,7 +698,7 @@ function initMisc() {
 
 /* ════ BOOT ════ */
 document.addEventListener('DOMContentLoaded', () => {
-  // Render dynamic sections from data.js first
+  // Render dynamic sections first
   renderAbout();
   renderSkills();
   renderProjects();
@@ -570,13 +707,13 @@ document.addEventListener('DOMContentLoaded', () => {
   renderLifeAt();
   renderTestimonials();
 
-  // Then init all interactions
+  // Init interactions
   initLoader();
   initCursor();
   initScrollBar();
   initCanvas();
   initTypewriter();
-  initHeroSlider();
+  initInfoSlider();
   initNavbar();
   initReveal();
   initCounters();

@@ -300,10 +300,13 @@ body.cc #cursor-dot {
   background: var(--ga);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text
+  background-clip: text;
+  position: relative;
+  z-index: 1
 }
 
-.nav-links {
+/* Desktop nav links */
+.nav-links-desktop {
   display: flex;
   align-items: center;
   gap: .15rem;
@@ -344,21 +347,25 @@ body.cc #cursor-dot {
   box-shadow: 0 5px 18px var(--glow)
 }
 
+/* Hamburger */
 .hamburger {
   display: none;
   flex-direction: column;
   gap: 5px;
   padding: 5px;
   border-radius: 8px;
-  cursor: pointer
+  cursor: pointer;
+  position: relative;
+  z-index: 1001
 }
 
 .hamburger span {
   display: block;
-  width: 21px;
+  width: 22px;
   height: 2px;
   background: var(--t1);
-  transition: transform var(--fast), opacity var(--fast)
+  border-radius: 2px;
+  transition: transform .35s var(--ease), opacity .25s
 }
 
 .hamburger.open span:nth-child(1) {
@@ -371,6 +378,161 @@ body.cc #cursor-dot {
 
 .hamburger.open span:nth-child(3) {
   transform: translateY(-7px) rotate(-45deg)
+}
+
+/* ── SIDE NAV DRAWER ── */
+#nav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 899;
+  background: rgba(0, 0, 0, .55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .38s var(--ease), visibility .38s
+}
+
+#nav-overlay.open {
+  opacity: 1;
+  visibility: visible
+}
+
+#side-nav {
+  position: fixed;
+  top: 0;
+  right: -340px;
+  width: 300px;
+  height: 100%;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 2rem;
+  background: rgba(5, 5, 18, .82);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border-left: 1px solid rgba(255, 255, 255, .1);
+  box-shadow: -8px 0 48px rgba(0, 0, 0, .55);
+  transition: right .42s cubic-bezier(.4, 0, .2, 1);
+  overflow-y: auto
+}
+
+#side-nav.open {
+  right: 0
+}
+
+.side-nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, .08)
+}
+
+.side-nav-logo {
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: -.04em;
+  background: var(--ga);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text
+}
+
+#nav-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--t2);
+  background: var(--surf);
+  border: 1px solid var(--bdr);
+  cursor: pointer;
+  transition: all var(--fast)
+}
+
+#nav-close:hover {
+  background: rgba(255, 71, 71, .15);
+  color: #ff453a;
+  border-color: rgba(255, 71, 71, .3)
+}
+
+.side-nav-links {
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  flex: 1
+}
+
+.side-nav-link {
+  display: flex;
+  align-items: center;
+  padding: .85rem 1rem;
+  border-radius: 12px;
+  font-size: .95rem;
+  font-weight: 500;
+  color: var(--t2);
+  transition: background var(--fast), color var(--fast), transform var(--fast);
+  position: relative
+}
+
+.side-nav-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) scaleY(0);
+  width: 3px;
+  height: 60%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: transform .25s var(--ease)
+}
+
+.side-nav-link:hover,
+.side-nav-link.active {
+  color: var(--t1);
+  background: rgba(255, 255, 255, .07);
+  transform: translateX(4px)
+}
+
+.side-nav-link:hover::before,
+.side-nav-link.active::before {
+  transform: translateY(-50%) scaleY(1)
+}
+
+.side-nav-cta {
+  margin: .5rem 1rem 1rem;
+  padding: .85rem 1rem;
+  border-radius: 12px;
+  font-size: .9rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--ga);
+  text-align: center;
+  transition: opacity var(--fast), transform var(--fast), box-shadow var(--fast)
+}
+
+.side-nav-cta:hover {
+  opacity: .88;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px var(--glow)
+}
+
+.side-nav-footer {
+  padding: 1rem 1.5rem 0;
+  border-top: 1px solid rgba(255, 255, 255, .06);
+  display: flex;
+  flex-direction: column;
+  gap: .2rem
+}
+
+.side-nav-footer span {
+  font-size: .75rem;
+  color: var(--t3)
 }
 
 /* ── BUTTONS ── */
@@ -496,20 +658,21 @@ body.cc #cursor-dot {
   width: 100%;
   height: 100svh;
   min-height: 580px;
-  overflow: hidden
+  overflow: hidden;
+  isolation: isolate
 }
 
-#hero-canvas {
-  position: absolute;
-  inset: 0;
+/* INFO SLIDER SECTION (Slides 2 & 3) */
+#hero-info {
+  position: relative;
   width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none
+  height: 100svh;
+  min-height: 560px;
+  overflow: hidden;
+  isolation: isolate
 }
 
-/* Slides track */
-.hero-track {
+.info-track {
   position: absolute;
   inset: 0;
   display: flex;
@@ -519,7 +682,7 @@ body.cc #cursor-dot {
   will-change: transform
 }
 
-.hero-slide {
+.info-slide {
   flex: 0 0 100%;
   position: relative;
   width: 100%;
@@ -528,6 +691,44 @@ body.cc #cursor-dot {
   display: flex;
   align-items: stretch;
   user-select: none
+}
+
+/* Info slider controls */
+.info-controls {
+  position: absolute;
+  bottom: 4.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem
+}
+
+#hero-info .slide-progress-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10
+}
+
+/* ── GLOBAL PARTICLE CANVAS ── */
+#particle-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .7
+}
+
+/* Static hero background */
+#hero .slide-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0
 }
 
 /* Animated backgrounds */
@@ -1242,31 +1443,39 @@ body.cc #cursor-dot {
 }
 
 /* ══════════════════════════════════
-   SKILLS CAROUSEL
+   SKILLS – HORIZONTAL SCROLL
 ══════════════════════════════════ */
-.skills-carousel-wrapper {
+.skills-scroll-wrapper {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 1.5rem
+  margin-bottom: 1.25rem
 }
 
 .skills-viewport {
   flex: 1;
-  overflow: hidden
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  cursor: grab
+}
+
+.skills-viewport.dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+  user-select: none
+}
+
+.skills-viewport::-webkit-scrollbar {
+  display: none
 }
 
 .skills-track {
   display: flex;
   gap: 1rem;
-  transition: transform .48s cubic-bezier(.77, 0, .18, 1);
-  will-change: transform;
-  cursor: grab;
-}
-
-.skills-track.dragging {
-  cursor: grabbing;
-  transition: none
+  width: max-content;
+  padding-bottom: 2px
 }
 
 .sc-card {
@@ -1356,11 +1565,12 @@ body.cc #cursor-dot {
 }
 
 /* Dots (shared) */
-.carousel-dots {
+.carousel-dots,
+.scroll-dots {
   display: flex;
   gap: .45rem;
   justify-content: center;
-  margin-top: 1.5rem
+  margin-top: 1.25rem
 }
 
 .c-dot {
@@ -1863,36 +2073,50 @@ body.cc #cursor-dot {
 }
 
 /* ══════════════════════════════════
-   TESTIMONIALS
+   TESTIMONIALS – HORIZONTAL SCROLL
 ══════════════════════════════════ */
-.test-carousel-wrapper {
-  overflow: hidden
+.test-scroll-wrapper {
+  margin-bottom: .5rem
 }
 
 .test-viewport {
-  overflow: hidden
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  cursor: grab
+}
+
+.test-viewport.dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+  user-select: none
+}
+
+.test-viewport::-webkit-scrollbar {
+  display: none
 }
 
 .test-track {
   display: flex;
-  gap: 1.35rem;
-  transition: transform .48s var(--ease);
-  will-change: transform;
-  cursor: grab;
-}
-
-.test-track.dragging {
-  cursor: grabbing;
-  transition: none
+  gap: 1.5rem;
+  width: max-content;
+  padding-bottom: 2px
 }
 
 .test-card {
-  flex: 0 0 calc(33.333% - .9rem);
-  min-width: calc(33.333% - .9rem);
+  flex: 0 0 340px;
+  width: 340px;
   padding: 1.75rem;
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
+  gap: 1rem;
+  transition: transform var(--fast), box-shadow var(--fast)
+}
+
+.test-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 52px rgba(0, 0, 0, .5)
 }
 
 .test-quote {
@@ -1918,17 +2142,41 @@ body.cc #cursor-dot {
   gap: .85rem
 }
 
-.test-avatar {
-  width: 44px;
-  height: 44px;
+/* Testimonial avatar */
+.test-avatar-wrap {
+  position: relative;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+.test-avatar-wrap.img-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%
+}
+
+.test-initials {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  font-size: .82rem;
-  color: #fff;
-  flex-shrink: 0
+  font-size: .78rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, .9);
+  letter-spacing: .04em
+}
+
+.test-avatar-wrap svg {
+  position: absolute;
+  inset: 0
 }
 
 .test-author strong {
@@ -1954,7 +2202,7 @@ body.cc #cursor-dot {
   align-items: center;
   justify-content: center;
   gap: 1.25rem;
-  margin-top: 1.5rem
+  margin-top: .75rem
 }
 
 /* ══════════════════════════════════
@@ -2271,7 +2519,7 @@ body.cc #cursor-dot {
     grid-template-columns: 42% 58%
   }
 
-  .nav-links {
+  .nav-links-desktop {
     gap: .05rem
   }
 
@@ -2282,15 +2530,24 @@ body.cc #cursor-dot {
 
 @media(max-width:900px) {
 
+  /* Show hamburger, hide desktop links */
+  .nav-links-desktop {
+    display: none
+  }
+
+  .hamburger {
+    display: flex
+  }
+
   /* Hero: stack columns */
   .hero-split {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr auto
+    grid-template-rows: auto 1fr
   }
 
   .hero-img-col {
-    height: 55vw;
-    max-height: 300px
+    height: 52vw;
+    max-height: 280px
   }
 
   .portrait-wrap img {
@@ -2302,16 +2559,12 @@ body.cc #cursor-dot {
   }
 
   .hero-text-col {
-    padding: 1.25rem 1.5rem 4rem;
+    padding: 1rem 1.25rem 5rem;
     justify-content: flex-start
   }
 
   .hero-name {
     font-size: clamp(2rem, 8vw, 3.8rem)
-  }
-
-  .hero-controls {
-    bottom: 3.5rem
   }
 
   .hero-badge {
@@ -2323,36 +2576,8 @@ body.cc #cursor-dot {
     gap: .65rem
   }
 
-  /* Nav hamburger */
-  .nav-links {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    bottom: 0;
-    width: min(280px, 78vw);
-    flex-direction: column;
-    background: rgba(0, 0, 0, .96);
-    backdrop-filter: blur(28px);
-    padding: 4.5rem 1.75rem 2rem;
-    gap: .4rem;
-    border-left: 1px solid var(--bdr);
-    transition: right .32s var(--ease)
-  }
-
-  .nav-links.open {
-    right: 0
-  }
-
-  .nav-link,
-  .nav-cta {
-    padding: .7rem .9rem;
-    border-radius: 10px;
-    margin: 0;
-    font-size: .95rem
-  }
-
-  .hamburger {
-    display: flex
+  .info-controls {
+    bottom: 3.5rem
   }
 
   /* About */
@@ -2385,14 +2610,14 @@ body.cc #cursor-dot {
 
   /* Testimonials */
   .test-card {
-    flex: 0 0 calc(50% - .68rem);
-    min-width: calc(50% - .68rem)
+    flex: 0 0 300px;
+    width: 300px
   }
 
   /* Skills */
   .sc-card {
-    flex: 0 0 155px;
-    min-width: 155px
+    flex: 0 0 150px;
+    min-width: 150px
   }
 }
 
@@ -2410,13 +2635,13 @@ body.cc #cursor-dot {
   }
 
   .test-card {
-    flex: 0 0 88%;
-    min-width: 88%
+    flex: 0 0 85vw;
+    width: 85vw
   }
 
   .sc-card {
-    flex: 0 0 145px;
-    min-width: 145px
+    flex: 0 0 140px;
+    min-width: 140px
   }
 
   .hero-stats {
@@ -2444,5 +2669,19 @@ body.cc #cursor-dot {
 
   .tl-dot {
     left: 10px
+  }
+
+  .hero-scroll-hint {
+    bottom: 1rem
+  }
+
+  .skills-scroll-wrapper {
+    gap: .5rem
+  }
+
+  .arrow-btn {
+    width: 36px;
+    height: 36px;
+    font-size: .85rem
   }
 }
