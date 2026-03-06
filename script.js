@@ -115,21 +115,20 @@ function initTypewriter() {
   setTimeout(tick, 900);
 }
 
-/* ════ INFO SLIDER (Slides 2 & 3 – below hero) ════ */
-function initInfoSlider() {
-  const track = $('#info-track');
-  const dotsEl = $('#info-dots');
-  const prev = $('#info-prev');
-  const next = $('#info-next');
-  const prog = $('#info-prog');
-  if (!track) return;
+/* ════ HERO TEXT CAROUSEL (right-side only, image stays pinned) ════ */
+function initHeroTextSlider() {
+  const slides = $$('.hero-text-slide');
+  const dotsEl = $('#hts-dots');
+  const prev = $('#hts-prev');
+  const next = $('#hts-next');
+  const prog = $('#hts-prog');
+  if (!slides.length) return;
 
-  const slides = $$('.info-slide', track);
   const TOTAL = slides.length;
-  const DUR = 6000;
+  const DUR = 6200;
   let cur = 0, animF, startTs;
 
-  // Render hero stats
+  // Render hero stats (slide 2)
   const statsEl = $('#hero-stats');
   if (statsEl && KB.heroStats) {
     KB.heroStats.forEach(s => {
@@ -139,12 +138,11 @@ function initInfoSlider() {
     });
   }
 
-  // Render tech pills
+  // Render tech pills (slide 3)
   const pillsEl = $('#tech-pills');
   if (pillsEl && KB.techPills) {
     KB.techPills.forEach(p => {
-      const s = ce('span', 'tech-pill', p);
-      pillsEl.appendChild(s);
+      pillsEl.appendChild(ce('span', 'tech-pill', p));
     });
   }
 
@@ -156,13 +154,16 @@ function initInfoSlider() {
     dotsEl.appendChild(b);
   });
 
-  function updateDots(i) { $$('.slide-dot', dotsEl).forEach((d, j) => d.classList.toggle('active', j === i)) }
+  function updateDots(i) {
+    $$('.slide-dot', dotsEl).forEach((d, j) => d.classList.toggle('active', j === i));
+  }
 
   function goTo(idx) {
-    slides[cur].setAttribute('aria-hidden', 'true');
+    // Fade out current
+    slides[cur].classList.remove('active');
     cur = (idx + TOTAL) % TOTAL;
-    track.style.transform = `translateX(-${cur * 100}%)`;
-    slides[cur].removeAttribute('aria-hidden');
+    // Fade in next
+    slides[cur].classList.add('active');
     updateDots(cur);
     resetAuto();
   }
@@ -182,12 +183,13 @@ function initInfoSlider() {
   on(prev, 'click', () => goTo(cur - 1));
   on(next, 'click', () => goTo(cur + 1));
 
-  // Drag support
-  addDragSupport(track, () => goTo(cur - 1), () => goTo(cur + 1));
+  // Drag on the text column
+  const wrapper = $('#hero-text-track');
+  if (wrapper) addDragSupport(wrapper, () => goTo(cur - 1), () => goTo(cur + 1));
 
-  slides[0].removeAttribute('aria-hidden');
   updateDots(0); resetAuto();
 }
+
 
 /* ════ DRAG SUPPORT UTILITY ════ */
 function addDragSupport(el, onLeft, onRight, threshold = 50) {
@@ -713,7 +715,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollBar();
   initCanvas();
   initTypewriter();
-  initInfoSlider();
+  initHeroTextSlider();
   initNavbar();
   initReveal();
   initCounters();

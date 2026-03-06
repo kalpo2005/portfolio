@@ -58,6 +58,19 @@ body {
   cursor: none
 }
 
+/* Subtle radial particle-friendly body bg */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(0, 113, 227, .08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(80, 0, 180, .06) 0%, transparent 50%),
+    #000;
+  z-index: -1;
+  pointer-events: none
+}
+
 @media(pointer:coarse) {
   body {
     cursor: auto
@@ -191,7 +204,7 @@ body.cc #cursor-dot {
   }
 }
 
-/* ── SCROLL BAR (strip only, no text) ── */
+/* ── SCROLL BAR (strip only) ── */
 #scroll-bar {
   position: fixed;
   top: 0;
@@ -209,6 +222,28 @@ body.cc #cursor-dot {
   background: var(--ga);
   border-radius: 0 2px 2px 0;
   transition: width .1s linear
+}
+
+/* ── SECTION backgrounds – semi-transparent so particles show ── */
+.section {
+  padding: var(--sy) 0;
+  position: relative;
+  isolation: isolate;
+  background: rgba(0, 0, 0, .72)
+}
+
+.section-dark {
+  background: rgba(8, 8, 8, .80)
+}
+
+/* Soft glass shimmer at top of each section */
+.section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 113, 227, .025) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 0
 }
 
 /* ── LOADER ── */
@@ -273,15 +308,17 @@ body.cc #cursor-dot {
   right: 0;
   z-index: 1000;
   padding: .8rem 0;
-  transition: background .3s, box-shadow .3s
+  background: rgba(0, 0, 0, .65);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, .07);
+  transition: background .3s, box-shadow .3s, border-color .3s
 }
 
 #navbar.scrolled {
   background: rgba(0, 0, 0, .85);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  border-bottom: 1px solid var(--bdr);
-  box-shadow: 0 1px 28px rgba(0, 0, 0, .6)
+  border-bottom-color: rgba(255, 255, 255, .12);
+  box-shadow: 0 1px 32px rgba(0, 0, 0, .7)
 }
 
 .nav-container {
@@ -651,66 +688,24 @@ body.cc #cursor-dot {
 }
 
 /* ══════════════════════════════════
-   HERO – SPLIT LAYOUT
+   HERO – PINNED IMAGE + TEXT CAROUSEL
 ══════════════════════════════════ */
 #hero {
   position: relative;
   width: 100%;
   height: 100svh;
-  min-height: 580px;
+  min-height: 750px;
   overflow: hidden;
-  isolation: isolate
+  isolation: isolate;
+  background: transparent
 }
 
-/* INFO SLIDER SECTION (Slides 2 & 3) */
-#hero-info {
-  position: relative;
-  width: 100%;
-  height: 100svh;
-  min-height: 560px;
-  overflow: hidden;
-  isolation: isolate
-}
-
-.info-track {
+/* Hero animated gradient background */
+.hero-bg {
   position: absolute;
   inset: 0;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  transition: transform .72s cubic-bezier(.77, 0, .18, 1);
-  will-change: transform
-}
-
-.info-slide {
-  flex: 0 0 100%;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  display: flex;
-  align-items: stretch;
-  user-select: none
-}
-
-/* Info slider controls */
-.info-controls {
-  position: absolute;
-  bottom: 4.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  gap: 1.25rem
-}
-
-#hero-info .slide-progress-line {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 10
+  z-index: 0;
+  opacity: .85
 }
 
 /* ── GLOBAL PARTICLE CANVAS ── */
@@ -732,7 +727,8 @@ body.cc #cursor-dot {
 }
 
 /* Animated backgrounds */
-.slide-bg {
+.slide-bg,
+.hero-bg {
   position: absolute;
   inset: 0;
   z-index: 0
@@ -841,8 +837,9 @@ body.cc #cursor-dot {
   transition: filter 1s;
   user-select: none;
   pointer-events: none;
-  mask-image: linear-gradient(to right, black 55%, transparent 100%), linear-gradient(to top, transparent 0%, black 14%);
-  -webkit-mask-image: linear-gradient(to right, black 55%, transparent 100%), linear-gradient(to top, transparent 0%, black 14%);
+  /* Desktop: fade right edge and lift bottom */
+  mask-image: linear-gradient(to right, black 52%, transparent 100%), linear-gradient(to top, transparent 0%, black 12%);
+  -webkit-mask-image: linear-gradient(to right, black 52%, transparent 100%), linear-gradient(to top, transparent 0%, black 12%);
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
 }
@@ -987,12 +984,78 @@ body.cc #cursor-dot {
   }
 }
 
-/* ─ Right column: text ─ */
+/* ── HERO TEXT CAROUSEL (right col) ── */
 .hero-text-col {
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 4rem) clamp(1.5rem, 4vw, 3.5rem) clamp(1rem, 2vw, 2.5rem);
+  position: relative;
+  overflow: hidden
+}
+
+.hero-slides-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden
+}
+
+.hero-text-track {
+  position: relative;
+  width: 100%;
+  height: 100%
+}
+
+/* Each text slide is stacked via absolute + opacity fade */
+.hero-text-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .65s var(--ease), transform .65s var(--ease);
+  pointer-events: none;
+  user-select: none
+}
+
+.hero-text-slide.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  user-select: auto
+}
+
+/* Text slide controls row */
+.hero-text-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  padding-top: 1.25rem;
+  flex-shrink: 0
+}
+
+/* Progress line inside right col */
+.hero-text-col .slide-progress-line {
+  position: relative;
+  bottom: auto;
+  margin-top: .6rem;
+  border-radius: 2px;
+  flex-shrink: 0
+}
+
+/* Dots inside hero always white */
+#hts-dots .slide-dot {
+  background: rgba(255, 255, 255, .28)
+}
+
+#hts-dots .slide-dot.active {
+  background: #fff;
+  width: 22px
 }
 
 /* Badge */
@@ -1036,7 +1099,7 @@ body.cc #cursor-dot {
 
 /* Name */
 .hero-name {
-  font-size: clamp(2.4rem, 6.5vw, 5.5rem);
+  font-size: clamp(2.6rem, 7vw, 5.5rem);
   font-weight: 900;
   letter-spacing: -.04em;
   line-height: .95;
@@ -1055,7 +1118,7 @@ body.cc #cursor-dot {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: shine 4s linear infinite;
+  animation: shine 4s linear infinite
 }
 
 @keyframes shine {
@@ -1066,7 +1129,7 @@ body.cc #cursor-dot {
 
 /* Role */
 .hero-role {
-  font-size: clamp(.95rem, 2vw, 1.35rem);
+  font-size: clamp(1rem, 2.3vw, 1.35rem);
   font-weight: 500;
   color: var(--t2);
   margin-bottom: .75rem;
@@ -1092,7 +1155,7 @@ body.cc #cursor-dot {
 
 /* Sub */
 .hero-sub {
-  font-size: clamp(.82rem, 1.3vw, .95rem);
+  font-size: clamp(.88rem, 1.4vw, 1rem);
   color: var(--t3);
   margin-bottom: 2rem;
   line-height: 1.5
@@ -1284,10 +1347,10 @@ body.cc #cursor-dot {
   background: var(--ga)
 }
 
-/* Scroll hint */
+/* Hero scroll hint */
 .hero-scroll-hint {
   position: absolute;
-  bottom: 1.5rem;
+  bottom: 1.25rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
@@ -1445,20 +1508,17 @@ body.cc #cursor-dot {
 /* ══════════════════════════════════
    SKILLS – HORIZONTAL SCROLL
 ══════════════════════════════════ */
-.skills-scroll-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.25rem
-}
-
+/* Full-width scrollable viewport (no side arrows) */
 .skills-viewport {
-  flex: 1;
+  width: 100%;
   overflow-x: auto;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  cursor: grab
+  cursor: grab;
+  /* Extra vertical padding prevents hover scale clipping */
+  padding: 1rem 0;
+  margin: -1rem 0
 }
 
 .skills-viewport.dragging {
@@ -1475,7 +1535,16 @@ body.cc #cursor-dot {
   display: flex;
   gap: 1rem;
   width: max-content;
-  padding-bottom: 2px
+  padding: 0 2px
+}
+
+/* Controls row below the viewport */
+.skills-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem
 }
 
 .sc-card {
@@ -1484,12 +1553,14 @@ body.cc #cursor-dot {
   padding: 1.5rem 1rem;
   text-align: center;
   transition: transform var(--fast), box-shadow var(--fast), border-color var(--fast);
+  /* overflow:visible stops the scale from clipping */
+  overflow: visible
 }
 
 .sc-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 14px 38px rgba(0, 0, 0, .5);
-  border-color: rgba(0, 113, 227, .35)
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, .55);
+  border-color: rgba(0, 113, 227, .4)
 }
 
 .sc-card i {
@@ -2444,29 +2515,35 @@ body.cc #cursor-dot {
 
 .footer-socials {
   display: flex;
-  gap: .55rem;
+  gap: .65rem;
   margin-top: .85rem
 }
 
 .footer-socials a {
-  width: 34px;
-  height: 34px;
-  border-radius: 7px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--surf);
   border: 1px solid var(--bdr);
-  font-size: .65rem;
-  font-weight: 700;
   color: var(--t2);
   transition: all var(--fast)
+}
+
+.footer-socials a svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0
 }
 
 .footer-socials a:hover {
   background: var(--accent);
   color: #fff;
-  border-color: var(--accent)
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px var(--glow)
 }
 
 .footer-bottom {
@@ -2539,17 +2616,36 @@ body.cc #cursor-dot {
     display: flex
   }
 
-  /* Hero: stack columns */
+  /* Hero: stack – image row on top, text col below */
   .hero-split {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr
+    grid-template-rows: 58svh 1fr
   }
 
+  /* Image col: tall enough to show face clearly */
   .hero-img-col {
-    height: 52vw;
-    max-height: 280px
+    height: 58svh;
+    max-height: none;
+    /* no cap – show max image */
+    overflow: hidden
   }
 
+  /* Add nav-height offset so image starts below navbar */
+  #hero {
+    padding-top: 0;
+    height: 100svh;
+    min-height: 1200px;
+
+  }
+
+  /* Push hero-split down so image col peeks below navbar */
+  .hero-split {
+    padding-top: 64px;
+    /* navbar height */
+    box-sizing: border-box
+  }
+
+  /* Mobile portrait: fade only at bottom, full width left-right */
   .portrait-wrap img {
     object-position: top center;
     mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
@@ -2558,26 +2654,72 @@ body.cc #cursor-dot {
     mask-composite: add
   }
 
-  .hero-text-col {
-    padding: 1rem 1.25rem 5rem;
-    justify-content: flex-start
+  /* Seamless bottom-of-image to text section: overlay gradient */
+  .hero-img-col::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--bg));
+    pointer-events: none;
+    z-index: 2
   }
 
+  /* Text col background matches so no seam */
+  .hero-text-col {
+    padding: 1rem 1.5rem 1.5rem;
+    justify-content: flex-start;
+    overflow: visible;
+    background: var(--bg)
+  }
+
+  .hero-slides-wrapper {
+    min-height: 0
+  }
+
+  /* Center dots and controls on mobile */
+  .hero-text-controls {
+    justify-content: center
+  }
+
+  /* Larger fonts on mobile – very legible */
   .hero-name {
-    font-size: clamp(2rem, 8vw, 3.8rem)
+    font-size: clamp(2.8rem, 10vw, 4.2rem)
+  }
+
+  .hero-role {
+    font-size: clamp(1.05rem, 3.5vw, 1.25rem)
+  }
+
+  .hero-sub {
+    font-size: clamp(.95rem, 2.8vw, 1.05rem)
+  }
+
+  .slide-heading {
+    font-size: clamp(1.8rem, 6vw, 2.4rem)
+  }
+
+  .slide-tagline {
+    font-size: clamp(1.9rem, 6vw, 2.6rem)
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 7vw, 2.8rem)
+  }
+
+  .hero-text-controls {
+    padding-top: .8rem
   }
 
   .hero-badge {
-    margin-bottom: 1rem
+    margin-bottom: .75rem
   }
 
   .hero-actions {
     flex-wrap: wrap;
     gap: .65rem
-  }
-
-  .info-controls {
-    bottom: 3.5rem
   }
 
   /* About */
@@ -2619,9 +2761,39 @@ body.cc #cursor-dot {
     flex: 0 0 150px;
     min-width: 150px
   }
+
+  /* Buttons full-width on tablet */
+  .hero-actions {
+    flex-direction: column;
+    width: 100%
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center
+  }
+
+  /* About section – smaller fonts on tablet */
+  .about-lead {
+    font-size: .95rem
+  }
+
+  .about-body p {
+    font-size: .82rem
+  }
+
+  .highlight {
+    font-size: .78rem
+  }
 }
 
 @media(max-width:600px) {
+
+  /* Bigger base font on small phones */
+  html {
+    font-size: 17px
+  }
+
   .projects-grid {
     grid-template-columns: 1fr
   }
@@ -2675,13 +2847,40 @@ body.cc #cursor-dot {
     bottom: 1rem
   }
 
-  .skills-scroll-wrapper {
-    gap: .5rem
-  }
-
   .arrow-btn {
     width: 36px;
     height: 36px;
     font-size: .85rem
+  }
+
+  /* Even bigger mobile fonts at 600px */
+  .hero-name {
+    font-size: clamp(2.5rem, 12vw, 3.8rem)
+  }
+
+  .section-title {
+    font-size: clamp(1.9rem, 8vw, 2.6rem)
+  }
+
+  /* Full-width buttons on mobile */
+  .hero-actions {
+    flex-direction: column;
+    width: 100%
+  }
+
+  .hero-actions .btn,
+  .slide-btn-row .btn {
+    width: 100%;
+    justify-content: center
+  }
+
+  /* About text smaller on mobile */
+  .about-lead {
+    font-size: .92rem
+  }
+
+  .about-body p {
+    font-size: .8rem;
+    line-height: 1.7
   }
 }
