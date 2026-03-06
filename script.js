@@ -243,16 +243,26 @@ function initNavbar() {
   const closeBtn = $('#nav-close');
   const allLinks = $$('.nav-link, .side-nav-link');
 
-  // Scroll state
+  // Scroll state – active link + hide-on-scroll behaviour
+  let lastScrollY = window.scrollY;
   on(window, 'scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 50);
-    const sy = window.scrollY + 130;
+    const sy = window.scrollY;
+    // Hide navbar when scrolling down, reveal when scrolling up
+    if (sy > lastScrollY && sy > 120) {
+      nav.classList.add('nav-hidden');
+    } else {
+      nav.classList.remove('nav-hidden');
+    }
+    lastScrollY = sy;
+
+    nav.classList.toggle('scrolled', sy > 50);
+    const activeY = sy + 130;
     $$('section[id]').forEach(sec => {
       const link = document.querySelector(`.nav-link[href="#${sec.id}"], .side-nav-link[href="#${sec.id}"]`);
-      if (link) link.classList.toggle('active', sy >= sec.offsetTop && sy < sec.offsetTop + sec.offsetHeight);
+      if (link) link.classList.toggle('active', activeY >= sec.offsetTop && activeY < sec.offsetTop + sec.offsetHeight);
     });
     const btt = $('#back-to-top');
-    if (btt) btt.classList.toggle('visible', window.scrollY > 380);
+    if (btt) btt.classList.toggle('visible', sy > 380);
   }, { passive: true });
 
   function openNav() {
@@ -578,6 +588,111 @@ function renderTestimonials() {
   });
 }
 
+/* ════ RENDER & INIT ACHIEVEMENTS ════ */
+function renderAchievements() {
+  const track = $('#ach-track');
+  if (!track || !KB.achievements) return;
+  KB.achievements.forEach((a, i) => {
+    const card = ce('div', 'ach-card');
+    card.dataset.achType = a.type;
+    if (i > 0) card.style.setProperty('--delay', `${(i % 4) * .08}s`);
+    // Banner
+    const banner = ce('div', 'ach-banner');
+    banner.style.background = a.color;
+    if (a.image) {
+      banner.innerHTML = `<img src="${a.image}" alt="${a.title}" loading="lazy" />`;
+    } else {
+      banner.innerHTML = `<span class="ach-banner-emoji">${a.badge}</span>`;
+    }
+    banner.innerHTML += `<span class="ach-type-badge ${a.type}">${a.type === 'certificate' ? 'Certificate' : 'Award'}</span>`;
+    // Body
+    const body = ce('div', 'ach-body');
+    body.innerHTML = `<span class="ach-year">${a.year}</span><h3>${a.title}</h3><p class="ach-issuer">${a.issuer}</p><p class="ach-desc">${a.desc}</p>`;
+    card.appendChild(banner);
+    card.appendChild(body);
+    track.appendChild(card);
+  });
+}
+
+function initAchievementsSlider() {
+  const vp = $('#ach-viewport');
+  const track = $('#ach-track');
+  const prev = $('#ach-prev');
+  const next = $('#ach-next');
+  const dotsEl = $('#ach-dots');
+  if (!vp || !track) return;
+
+  function cardWidth() {
+    const c = track.firstElementChild;
+    return c ? c.offsetWidth + 20 : 300;
+  }
+
+  function scrollBy(dir) {
+    const pv = window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1;
+    vp.scrollBy({ left: dir * cardWidth() * pv, behavior: 'smooth' });
+  }
+
+  on(prev, 'click', () => scrollBy(-1));
+  on(next, 'click', () => scrollBy(1));
+
+  function buildDots() {
+    if (!dotsEl) return;
+    dotsEl.innerHTML = '';
+    const cards = $$('.ach-card:not(.hidden)', track);
+    const pv = window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1;
+    const pages = Math.ceil(cards.length / pv);
+    for (let i = 0; i < pages; i++) {
+      const b = ce('button', 'c-dot' + (i === 0 ? ' active' : ''));
+      b.setAttribute('role', 'tab'); b.setAttribute('aria-label', `Achievement ${i + 1}`);
+      on(b, 'click', () => { vp.scrollTo({ left: i * vp.offsetWidth, behavior: 'smooth' }); });
+      dotsEl.appendChild(b);
+    }
+  }
+
+  on(vp, 'scroll', () => {
+    const visible = $$('.ach-card:not(.hidden)', track);
+    if (!visible.length) return;
+    const pv = window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1;
+    const idx = Math.round(vp.scrollLeft / cardWidth());
+    const page = Math.floor(idx / pv);
+    $$('.c-dot', dotsEl).forEach((d, i) => d.classList.toggle('active', i === page));
+    if (prev) prev.disabled = vp.scrollLeft < 10;
+    if (next) next.disabled = vp.scrollLeft + vp.offsetWidth >= track.scrollWidth - 10;
+  }, { passive: true });
+
+  // Pointer drag (desktop)
+  let isDragging = false, dragStartX = 0, scrollStart = 0;
+  on(vp, 'pointerdown', e => {
+    isDragging = true; dragStartX = e.clientX; scrollStart = vp.scrollLeft;
+    vp.setPointerCapture(e.pointerId); vp.classList.add('dragging');
+  });
+  on(vp, 'pointermove', e => {
+    if (!isDragging) return;
+    vp.scrollLeft = scrollStart - (e.clientX - dragStartX);
+  });
+  on(vp, 'pointerup', () => { isDragging = false; vp.classList.remove('dragging'); });
+  on(vp, 'pointercancel', () => { isDragging = false; vp.classList.remove('dragging'); });
+
+  // Filter logic
+  on(document, 'click', e => {
+    const btn = e.target.closest('.ach-filter-btn');
+    if (!btn) return;
+    $$('.ach-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.achFilter;
+    $$('.ach-card', track).forEach(c => {
+      const show = f === 'all' || c.dataset.achType === f;
+      c.classList.toggle('hidden', !show);
+    });
+    vp.scrollTo({ left: 0, behavior: 'smooth' });
+    buildDots();
+  });
+
+  on(window, 'resize', buildDots);
+  buildDots();
+  if (prev) prev.disabled = true;
+}
+
 /* ════ TESTIMONIALS – HORIZONTAL DRAG SCROLL ════ */
 function initTestimonials() {
   const vp = $('#test-viewport');
@@ -708,6 +823,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderEducation();
   renderLifeAt();
   renderTestimonials();
+  renderAchievements();
 
   // Init interactions
   initLoader();
@@ -722,6 +838,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSkillsCarousel();
   initProjectFilter();
   initTestimonials();
+  initAchievementsSlider();
   initContactForm();
   initMisc();
 });

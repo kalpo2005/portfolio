@@ -137,13 +137,7 @@ ul {
   border-radius: var(--r)
 }
 
-.section {
-  padding: var(--sy) 0
-}
-
-.section-dark {
-  background: var(--bg2)
-}
+/* .section base only defines padding – background set below with transparency */
 
 .mt-2 {
   margin-top: 2rem
@@ -224,16 +218,17 @@ body.cc #cursor-dot {
   transition: width .1s linear
 }
 
-/* ── SECTION backgrounds – semi-transparent so particles show ── */
+/* ── SECTION backgrounds – fully transparent – particles show everywhere ── */
 .section {
   padding: var(--sy) 0;
   position: relative;
   isolation: isolate;
-  background: rgba(0, 0, 0, .72)
+  background: transparent
 }
 
+/* section-dark gets a barely-there 42% tint for visual rhythm */
 .section-dark {
-  background: rgba(8, 8, 8, .80)
+  background: rgba(4, 4, 12, .42)
 }
 
 /* Soft glass shimmer at top of each section */
@@ -241,7 +236,7 @@ body.cc #cursor-dot {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0, 113, 227, .025) 0%, transparent 40%);
+  background: linear-gradient(180deg, rgba(0, 113, 227, .03) 0%, transparent 45%);
   pointer-events: none;
   z-index: 0
 }
@@ -312,7 +307,12 @@ body.cc #cursor-dot {
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   border-bottom: 1px solid rgba(255, 255, 255, .07);
-  transition: background .3s, box-shadow .3s, border-color .3s
+  transition: background .3s, box-shadow .3s, border-color .3s, transform .35s cubic-bezier(.4, 0, .2, 1)
+}
+
+/* Navbar hide on scroll down */
+#navbar.nav-hidden {
+  transform: translateY(-110%)
 }
 
 #navbar.scrolled {
@@ -2441,12 +2441,194 @@ body.cc #cursor-dot {
 }
 
 /* ══════════════════════════════════
+   ACHIEVEMENTS
+══════════════════════════════════ */
+.ach-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  justify-content: center;
+  margin-bottom: 2rem
+}
+
+.ach-filter-btn {
+  padding: .45rem 1.1rem;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--t2);
+  background: var(--surf);
+  border: 1px solid var(--bdr);
+  border-radius: 980px;
+  transition: all var(--fast);
+  cursor: pointer
+}
+
+.ach-filter-btn:hover {
+  color: var(--t1);
+  border-color: var(--bdr2)
+}
+
+.ach-filter-btn.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 4px 18px var(--glow)
+}
+
+.ach-viewport {
+  width: 100%;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  cursor: grab;
+  padding: 1rem 0;
+  margin: -1rem 0
+}
+
+.ach-viewport::-webkit-scrollbar {
+  display: none
+}
+
+.ach-viewport.dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+  user-select: none
+}
+
+.ach-track {
+  display: flex;
+  gap: 1.25rem;
+  width: max-content;
+  padding: 0 2px
+}
+
+.ach-card {
+  flex: 0 0 280px;
+  width: 280px;
+  padding: 0;
+  border-radius: var(--rl);
+  overflow: hidden;
+  transition: transform var(--fast), box-shadow var(--fast);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  border: var(--glass-bd)
+}
+
+.ach-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, .55)
+}
+
+.ach-card.hidden {
+  display: none
+}
+
+/* Gradient top banner */
+.ach-banner {
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden
+}
+
+.ach-banner-emoji {
+  font-size: 3.5rem;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, .4))
+}
+
+/* Image replaces emoji if provided */
+.ach-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0
+}
+
+.ach-type-badge {
+  position: absolute;
+  top: .65rem;
+  right: .65rem;
+  padding: .18rem .55rem;
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  border-radius: 6px;
+  color: #fff;
+  z-index: 2
+}
+
+.ach-type-badge.certificate {
+  background: rgba(0, 200, 100, .75)
+}
+
+.ach-type-badge.award {
+  background: rgba(255, 160, 0, .8)
+}
+
+.ach-body {
+  padding: 1.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column
+}
+
+.ach-year {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: .4rem
+}
+
+.ach-body h3 {
+  font-size: .95rem;
+  font-weight: 800;
+  margin-bottom: .25rem;
+  line-height: 1.3
+}
+
+.ach-issuer {
+  font-size: .78rem;
+  color: var(--t3);
+  margin-bottom: .75rem
+}
+
+.ach-desc {
+  font-size: .8rem;
+  color: var(--t2);
+  line-height: 1.65;
+  flex: 1
+}
+
+.ach-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem
+}
+
+/* ══════════════════════════════════
    FOOTER
 ══════════════════════════════════ */
 #footer {
-  background: var(--bg2);
-  border-top: 1px solid var(--bdr);
-  padding: clamp(2.5rem, 5vw, 4.5rem) 0 1.75rem
+  background: transparent;
+  border-top: 1px solid rgba(255, 255, 255, .06);
+  padding: clamp(2.5rem, 5vw, 4.5rem) 0 1.75rem;
+  position: relative;
+  isolation: isolate
 }
 
 .footer-grid {
@@ -2811,6 +2993,11 @@ body.cc #cursor-dot {
     width: 85vw
   }
 
+  .ach-card {
+    flex: 0 0 82vw;
+    width: 82vw
+  }
+
   .sc-card {
     flex: 0 0 140px;
     min-width: 140px
@@ -2882,5 +3069,17 @@ body.cc #cursor-dot {
   .about-body p {
     font-size: .8rem;
     line-height: 1.7
+  }
+
+  /* Side nav CTA – prevent overflow on small screens */
+  .side-nav-cta {
+    margin: .25rem .75rem .75rem;
+    padding: .7rem .75rem;
+    font-size: .85rem
+  }
+
+  /* Prevent horizontal shrink for section containers */
+  .container {
+    width: min(1240px, 96vw)
   }
 }
