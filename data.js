@@ -9,7 +9,7 @@ const KB = {
     name: "Kalpesh Bavaliya",
     role: "Full Stack Developer",
     badge: "Available for work",
-    location: "Botad, ujarat, India",
+    location: "Botad, Gujarat, India",
     email: "kalpesh.bavaliya2005@gmail.com",
     phone: "+91 98250 00000",
     github: "https://github.com",
@@ -42,10 +42,10 @@ const KB = {
     /* ── About ── */
     about: {
         cards: [
-            { icon: "⚡", title: "5+ Years", sub: "Experience" },
-            { icon: "📍", title: "Surat, India", sub: "Available Remote" },
+            { icon: "⚡", title: "2.5+ Years", sub: "Experience" },
+            { icon: "📍", title: "Gadhada, India", sub: "Available Remote" },
         ],
-        lead: "Hey there! I'm a passionate <strong>Full Stack Developer</strong> with 5+ years of experience turning ideas into robust, scalable digital products.",
+        lead: "Hey there! I'm a passionate <strong>Full Stack Developer</strong> with 2.5+ years of experience turning ideas into robust, scalable digital products.",
         body: [
             "I specialize in <strong>React.js, Node.js, Laravel, Flutter</strong> and cloud infrastructure. From pixel-perfect UIs to high-throughput APIs, I love every layer of the stack.",
             "When I'm not coding, I'm exploring system design, contributing to open source, or mentoring junior devs. I believe great software is built on clean code, empathy for users, and relentless iteration.",

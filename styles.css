@@ -31,7 +31,7 @@
   --fast: .18s;
   --mid: .45s;
   --slow: .85s;
-  --sy: clamp(4.5rem, 9vw, 7.5rem);
+  --sy: clamp(3.5rem, 8vw, 6.5rem);
 }
 
 /* ── RESET ── */
@@ -694,7 +694,7 @@ body.cc #cursor-dot {
   position: relative;
   width: 100%;
   height: 100svh;
-  min-height: 750px;
+  /* min-height: 250px; */
   overflow: hidden;
   isolation: isolate;
   background: transparent
