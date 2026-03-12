@@ -125,7 +125,7 @@ function initHeroTextSlider() {
   if (!slides.length) return;
 
   const TOTAL = slides.length;
-  const DUR = 6200;
+  const DUR = 8000;
   let cur = 0, animF, startTs;
 
   // Render hero stats (slide 2)
