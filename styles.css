@@ -2950,7 +2950,7 @@ body.cc #cursor-dot {
     width: 100%
   }
 
-  .hero-actions .btn {
+  .hero-actions .btn , .btn-100{
     width: 100%;
     justify-content: center
   }

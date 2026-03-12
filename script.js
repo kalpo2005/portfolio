@@ -125,7 +125,7 @@ function initHeroTextSlider() {
   if (!slides.length) return;
 
   const TOTAL = slides.length;
-  const DUR = 6200;
+  const DUR = 8000;
   let cur = 0, animF, startTs;
 
   // Render hero stats (slide 2)
@@ -344,7 +344,7 @@ function renderAbout() {
     KB.about.body.forEach(p => { html += `<p>${p}</p>`; });
     html += `</div><div class="about-highlights">`;
     KB.about.highlights.forEach(h => { html += `<div class="highlight"><span class="h-icon">${h.icon}</span><span>${h.text}</span></div>`; });
-    html += `</div><a href="#contact" class="btn btn-primary mt-2">Get In Touch</a>`;
+    html += `</div><a href="#contact" class="btn btn-100 btn-primary mt-2">Get In Touch</a>`;
     textEl.innerHTML = html;
   }
 }
