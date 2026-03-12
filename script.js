@@ -581,7 +581,7 @@ function renderTestimonials() {
       <p>${t.text}</p>
       <div class="test-author">
         ${avatarHTML}
-        <div><strong>${t.name}</strong><small>${t.role}</small></div>
+        <div class="test-name"><strong>${t.name}</strong><small>${t.role}</small></div>
         <div class="test-stars">★★★★★</div>
       </div>`;
     track.appendChild(d);
@@ -605,7 +605,7 @@ function renderAchievements() {
       banner.innerHTML = `<span class="ach-banner-emoji">${a.badge}</span>`;
     }
     banner.innerHTML += `<span class="ach-type-badge ${a.type}">${a.type === 'certificate' ? 'Certificate' : 'Award'}</span>`;
-    // Body
+    
     const body = ce('div', 'ach-body');
     body.innerHTML = `<span class="ach-year">${a.year}</span><h3>${a.title}</h3><p class="ach-issuer">${a.issuer}</p><p class="ach-desc">${a.desc}</p>`;
     card.appendChild(banner);

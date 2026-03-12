@@ -2213,6 +2213,11 @@ body.cc #cursor-dot {
   gap: .85rem
 }
 
+.test-name,
+.test-name>small {
+  line-height: 1.4;
+}
+
 /* Testimonial avatar */
 .test-avatar-wrap {
   position: relative;
@@ -2950,7 +2955,8 @@ body.cc #cursor-dot {
     width: 100%
   }
 
-  .hero-actions .btn , .btn-100{
+  .hero-actions .btn,
+  .btn-100 {
     width: 100%;
     justify-content: center
   }

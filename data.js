@@ -281,7 +281,7 @@ const KB = {
     testimonials: [
         {
             initials: "TM", grad: "linear-gradient(135deg,#1565c0,#42a5f5)",
-            image: "null",
+            image: null,
             name: "Trushit Mamaiya", role: "FOUNDER, BharatNextGenTech",
             text: "\"Kalpesh is one of the most talented developers I've worked with. He delivered our e-commerce platform 2 weeks ahead of schedule with exceptional quality.\"",
         },
