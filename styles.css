@@ -45,7 +45,8 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 16px
+  font-size: 16px;
+  overflow-x: hidden
 }
 
 body {
@@ -56,6 +57,13 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   cursor: none
+}
+
+/* ── SCROLL LOCK when mobile nav is open (iOS-safe) ── */
+body.nav-open {
+  position: fixed;
+  width: 100%;
+  overflow: hidden
 }
 
 /* Subtle radial particle-friendly body bg */
@@ -438,7 +446,7 @@ body.cc #cursor-dot {
 #side-nav {
   position: fixed;
   top: 0;
-  right: -340px;
+  right: 0;
   width: 300px;
   height: 100%;
   z-index: 1001;
@@ -450,12 +458,14 @@ body.cc #cursor-dot {
   -webkit-backdrop-filter: blur(32px) saturate(180%);
   border-left: 1px solid rgba(255, 255, 255, .1);
   box-shadow: -8px 0 48px rgba(0, 0, 0, .55);
-  transition: right .42s cubic-bezier(.4, 0, .2, 1);
-  overflow-y: auto
+  overflow-y: auto;
+  /* Use translateX instead of right to avoid horizontal page overflow */
+  transform: translateX(100%);
+  transition: transform .42s cubic-bezier(.4, 0, .2, 1)
 }
 
 #side-nav.open {
-  right: 0
+  transform: translateX(0)
 }
 
 .side-nav-header {
