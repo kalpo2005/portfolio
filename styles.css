@@ -45,7 +45,8 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 16px
+  font-size: 16px;
+  overflow-x: hidden
 }
 
 body {
@@ -56,6 +57,13 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   cursor: none
+}
+
+/* ── SCROLL LOCK when mobile nav is open (iOS-safe) ── */
+body.nav-open {
+  position: fixed;
+  width: 100%;
+  overflow: hidden
 }
 
 /* Subtle radial particle-friendly body bg */
@@ -438,7 +446,7 @@ body.cc #cursor-dot {
 #side-nav {
   position: fixed;
   top: 0;
-  right: -340px;
+  right: 0;
   width: 300px;
   height: 100%;
   z-index: 1001;
@@ -450,12 +458,14 @@ body.cc #cursor-dot {
   -webkit-backdrop-filter: blur(32px) saturate(180%);
   border-left: 1px solid rgba(255, 255, 255, .1);
   box-shadow: -8px 0 48px rgba(0, 0, 0, .55);
-  transition: right .42s cubic-bezier(.4, 0, .2, 1);
-  overflow-y: auto
+  overflow-y: auto;
+  /* Use translateX instead of right to avoid horizontal page overflow */
+  transform: translateX(100%);
+  transition: transform .42s cubic-bezier(.4, 0, .2, 1)
 }
 
 #side-nav.open {
-  right: 0
+  transform: translateX(0)
 }
 
 .side-nav-header {
@@ -3087,5 +3097,699 @@ body.cc #cursor-dot {
   /* Prevent horizontal shrink for section containers */
   .container {
     width: min(1240px, 90vw)
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   APPLE-STYLE HOVER SYSTEM & MICRO-ANIMATIONS
+   All transforms/opacity – GPU only – 60 fps guaranteed
+═══════════════════════════════════════════════════════ */
+
+/* ── Spring easing tokens ── */
+:root {
+  --spring: cubic-bezier(.34, 1.56, .64, 1);
+  --snap: cubic-bezier(.25, 1.1, .5, 1);
+  --silk: cubic-bezier(.4, 0, .2, 1);
+  --dur-xs: .14s;
+  --dur-s: .22s;
+  --dur-m: .38s;
+  --dur-l: .55s
+}
+
+/* ── BUTTONS – Apple-quality ── */
+.btn {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform var(--dur-s) var(--spring),
+    box-shadow var(--dur-s) var(--silk),
+    background var(--dur-xs) var(--silk),
+    opacity var(--dur-xs) var(--silk)
+}
+
+/* Shimmer sweep on primary button */
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, .18) 50%, transparent 60%);
+  transform: translateX(-100%);
+  transition: transform .55s var(--silk)
+}
+
+.btn-primary:hover::after {
+  transform: translateX(100%)
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 30px rgba(0, 113, 227, .45), 0 2px 8px rgba(0, 0, 0, .3)
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(.97);
+  box-shadow: 0 3px 10px rgba(0, 113, 227, .3)
+}
+
+.btn-ghost:hover {
+  transform: translateY(-3px) scale(1.03);
+  background: var(--surf);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .28), inset 0 0 0 1px rgba(255, 255, 255, .12)
+}
+
+.btn-ghost:active {
+  transform: translateY(0) scale(.97)
+}
+
+/* Nav CTA button */
+.nav-cta {
+  transition:
+    transform var(--dur-s) var(--spring),
+    box-shadow var(--dur-s) var(--silk),
+    opacity var(--dur-xs) var(--silk)
+}
+
+.nav-cta:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 8px 22px var(--glow)
+}
+
+.nav-cta:active {
+  transform: scale(.96)
+}
+
+/* Side nav CTA */
+.side-nav-cta {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform var(--dur-s) var(--spring),
+    box-shadow var(--dur-s) var(--silk),
+    opacity var(--dur-xs)
+}
+
+.side-nav-cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, .15) 50%, transparent 60%);
+  transform: translateX(-100%);
+  transition: transform .5s var(--silk)
+}
+
+.side-nav-cta:hover::after {
+  transform: translateX(100%)
+}
+
+.side-nav-cta:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 28px var(--glow)
+}
+
+/* ── NAV LINKS – underline sweep ── */
+.nav-link {
+  position: relative;
+  transition:
+    color var(--dur-xs) var(--silk),
+    background var(--dur-xs) var(--silk),
+    transform var(--dur-s) var(--spring)
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  right: 50%;
+  height: 2px;
+  background: var(--accent2);
+  border-radius: 2px;
+  transition: left var(--dur-s) var(--snap), right var(--dur-s) var(--snap)
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  left: 12%;
+  right: 12%
+}
+
+/* Side nav links */
+.side-nav-link {
+  transition:
+    color var(--dur-xs) var(--silk),
+    background var(--dur-s) var(--silk),
+    transform var(--dur-s) var(--spring)
+}
+
+.side-nav-link:hover {
+  transform: translateX(6px)
+}
+
+/* ── HERO IMAGE – subtle tilt & glow ── */
+.hero-img-col {
+  transition: filter var(--dur-l) var(--silk)
+}
+
+.hero-img-col:hover .portrait-wrap img {
+  filter: grayscale(0%) brightness(1.04);
+  transition: filter var(--dur-m) var(--silk)
+}
+
+.hero-img-col:hover .portrait-glow {
+  opacity: 1.4;
+  transform: scale(1.08);
+  transition: opacity var(--dur-m) var(--silk), transform var(--dur-m) var(--silk)
+}
+
+/* ── ABOUT IMAGE – color reveal + scale ── */
+.about-image-frame {
+  transition: transform var(--dur-m) var(--spring), box-shadow var(--dur-m) var(--silk)
+}
+
+.about-image-frame:hover {
+  transform: scale(1.025) translateY(-4px);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .5), 0 0 0 1px rgba(0, 113, 227, .2)
+}
+
+.about-image-frame img {
+  transition: filter var(--dur-m) var(--silk), transform var(--dur-m) var(--silk)
+}
+
+.about-image-frame:hover img {
+  filter: grayscale(0%) brightness(1.05);
+  transform: scale(1.03)
+}
+
+/* About info cards float */
+.about-card {
+  transition: transform var(--dur-m) var(--spring), box-shadow var(--dur-m) var(--silk)
+}
+
+.about-card:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .4)
+}
+
+/* Highlight chips */
+.highlight {
+  transition:
+    transform var(--dur-s) var(--spring),
+    border-color var(--dur-xs) var(--silk),
+    background var(--dur-xs) var(--silk),
+    box-shadow var(--dur-s) var(--silk)
+}
+
+.highlight:hover {
+  transform: translateY(-3px) scale(1.04);
+  border-color: var(--accent);
+  background: rgba(0, 113, 227, .07);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .3)
+}
+
+/* ── SKILL CARDS – lift + icon bounce ── */
+.sc-card {
+  transition:
+    transform var(--dur-s) var(--spring),
+    box-shadow var(--dur-s) var(--silk),
+    border-color var(--dur-xs) var(--silk)
+}
+
+.sc-card:hover {
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, .55), 0 0 0 1px rgba(0, 113, 227, .3);
+  border-color: rgba(0, 113, 227, .45)
+}
+
+.sc-card i {
+  transition: transform var(--dur-m) var(--spring), filter var(--dur-m) var(--silk)
+}
+
+.sc-card:hover i {
+  transform: scale(1.2) translateY(-3px);
+  filter: drop-shadow(0 4px 12px rgba(0, 113, 227, .4))
+}
+
+/* ── ARROW BUTTONS – spin + glow ── */
+.arrow-btn {
+  transition:
+    transform var(--dur-s) var(--spring),
+    background var(--dur-xs) var(--silk),
+    box-shadow var(--dur-s) var(--silk),
+    color var(--dur-xs) var(--silk)
+}
+
+.arrow-btn:hover:not(:disabled) {
+  transform: scale(1.15);
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 6px 20px rgba(0, 113, 227, .45)
+}
+
+.arrow-btn:active:not(:disabled) {
+  transform: scale(.92)
+}
+
+/* ── FILTER BUTTONS ── */
+.filter-btn,
+.ach-filter-btn {
+  transition:
+    transform var(--dur-s) var(--spring),
+    background var(--dur-xs) var(--silk),
+    box-shadow var(--dur-s) var(--silk),
+    color var(--dur-xs) var(--silk),
+    border-color var(--dur-xs) var(--silk)
+}
+
+.filter-btn:hover:not(.active),
+.ach-filter-btn:hover:not(.active) {
+  transform: translateY(-2px) scale(1.04);
+  color: var(--t1);
+  background: rgba(255, 255, 255, .06);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .25)
+}
+
+.filter-btn.active,
+.ach-filter-btn.active {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px var(--glow)
+}
+
+.filter-btn:active,
+.ach-filter-btn:active {
+  transform: scale(.95)
+}
+
+/* ── PROJECT CARDS – 3-D depth lift ── */
+.project-card {
+  transition:
+    transform var(--dur-s) var(--spring),
+    box-shadow var(--dur-m) var(--silk)
+}
+
+.project-card:hover {
+  transform: translateY(-10px) scale(1.015);
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, .55),
+    0 0 0 1px rgba(0, 113, 227, .15),
+    inset 0 1px 0 rgba(255, 255, 255, .06)
+}
+
+.proj-img {
+  transition: transform var(--dur-m) var(--silk), filter var(--dur-m) var(--silk)
+}
+
+.project-card:hover .proj-img {
+  transform: scale(1.08)
+}
+
+.proj-overlay {
+  transition: opacity var(--dur-s) var(--silk), backdrop-filter var(--dur-s) var(--silk);
+  backdrop-filter: blur(0px)
+}
+
+.project-card:hover .proj-overlay {
+  opacity: 1;
+  backdrop-filter: blur(4px)
+}
+
+/* Project overlay buttons spring in */
+.proj-overlay .btn {
+  transform: translateY(10px);
+  opacity: 0;
+  transition:
+    transform var(--dur-s) var(--spring),
+    opacity var(--dur-s) var(--silk)
+}
+
+.project-card:hover .proj-overlay .btn {
+  transform: translateY(0);
+  opacity: 1
+}
+
+.project-card:hover .proj-overlay .btn:last-child {
+  transition-delay: .06s
+}
+
+/* ── EDUCATION CARDS ── */
+.edu-card {
+  transition:
+    transform var(--dur-s) var(--spring),
+    box-shadow var(--dur-m) var(--silk),
+    border-color var(--dur-xs) var(--silk)
+}
+
+.edu-card:hover {
+  transform: translateY(-7px) scale(1.02);
+  box-shadow: 0 22px 52px rgba(0, 0, 0, .45), 0 0 0 1px rgba(0, 113, 227, .18);
+  border-color: rgba(0, 113, 227, .25)
+}
+
+.edu-icon {
+  transition: transform var(--dur-m) var(--spring)
+}
+
+.edu-card:hover .edu-icon {
+  transform: scale(1.2) rotate(-5deg)
+}
+
+/* ── LIFE CARDS ── */
+.life-card {
+  transition:
+    transform var(--dur-s) var(--spring),
+    box-shadow var(--dur-m) var(--silk),
+    border-color var(--dur-xs) var(--silk)
+}
+
+.life-card:hover {
+  transform: translateX(6px) translateY(-3px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, .45), 0 0 0 1px rgba(0, 113, 227, .18)
+}
+
+.life-emoji {
+  transition: transform var(--dur-m) var(--spring), opacity var(--dur-m) var(--silk)
+}
+
+.life-card:hover .life-emoji {
+  transform: scale(1.2) rotate(8deg);
+  opacity: 1
+}
+
+/* Life icon glow on hover */
+.life-icon {
+  transition: transform var(--dur-m) var(--spring), box-shadow var(--dur-m) var(--silk)
+}
+
+.life-item:hover .life-icon {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 6px rgba(0, 113, 227, .15), 0 0 28px rgba(0, 113, 227, .35)
+}
+
+/* ── STAT CARDS (hero) ── */
+.stat {
+  transition:
+    transform var(--dur-s) var(--spring),
+    border-color var(--dur-xs) var(--silk),
+    box-shadow var(--dur-s) var(--silk)
+}
+
+.stat:hover {
+  transform: translateY(-4px) scale(1.03);
+  border-color: rgba(0, 113, 227, .4);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, .4), 0 0 0 1px rgba(0, 113, 227, .2)
+}
+
+/* ── TESTIMONIAL CARDS ── */
+.test-card {
+  transition:
+    transform var(--dur-s) var(--spring),
+    box-shadow var(--dur-m) var(--silk)
+}
+
+.test-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 28px 64px rgba(0, 0, 0, .5), 0 0 0 1px rgba(0, 113, 227, .12)
+}
+
+.test-avatar-wrap {
+  transition: transform var(--dur-m) var(--spring), box-shadow var(--dur-m) var(--silk)
+}
+
+.test-card:hover .test-avatar-wrap {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 3px var(--accent), 0 6px 20px rgba(0, 113, 227, .35)
+}
+
+/* ── ACHIEVEMENT CARDS ── */
+.ach-card {
+  transition:
+    transform var(--dur-s) var(--spring),
+    box-shadow var(--dur-m) var(--silk)
+}
+
+.ach-card:hover {
+  transform: translateY(-10px) scale(1.025);
+  box-shadow: 0 28px 65px rgba(0, 0, 0, .55), 0 0 0 1px rgba(0, 113, 227, .2)
+}
+
+.ach-banner img,
+.ach-banner-emoji {
+  transition: transform var(--dur-m) var(--spring), filter var(--dur-m) var(--silk)
+}
+
+.ach-card:hover .ach-banner img {
+  transform: scale(1.06)
+}
+
+.ach-card:hover .ach-banner-emoji {
+  transform: scale(1.18) rotate(4deg);
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, .5))
+}
+
+/* ── CONTACT ITEMS ── */
+.contact-item {
+  transition:
+    transform var(--dur-s) var(--spring),
+    border-color var(--dur-xs) var(--silk),
+    box-shadow var(--dur-s) var(--silk)
+}
+
+.contact-item:hover {
+  transform: translateX(6px);
+  border-color: rgba(0, 113, 227, .28);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .3)
+}
+
+.ci-icon {
+  transition: transform var(--dur-m) var(--spring)
+}
+
+.contact-item:hover .ci-icon {
+  transform: scale(1.2) rotate(-6deg)
+}
+
+/* ── SOCIAL LINKS (contact + footer) ── */
+.soc-link,
+.footer-socials a {
+  transition:
+    transform var(--dur-s) var(--spring),
+    background var(--dur-xs) var(--silk),
+    box-shadow var(--dur-s) var(--silk),
+    color var(--dur-xs) var(--silk)
+}
+
+.soc-link:hover {
+  transform: translateY(-4px) scale(1.15);
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 10px 26px rgba(0, 113, 227, .45)
+}
+
+.footer-socials a:hover {
+  transform: translateY(-4px) scale(1.15);
+  box-shadow: 0 10px 26px rgba(0, 113, 227, .45)
+}
+
+.soc-link:active,
+.footer-socials a:active {
+  transform: scale(.9)
+}
+
+/* Footer nav links */
+.footer-links a,
+.footer-contact-col a {
+  transition:
+    color var(--dur-xs) var(--silk),
+    transform var(--dur-s) var(--spring)
+}
+
+.footer-links a:hover,
+.footer-contact-col a:hover {
+  color: var(--accent2);
+  transform: translateX(4px)
+}
+
+/* ── FORM INPUTS – focus glow pulse ── */
+.form-group input,
+.form-group textarea {
+  transition:
+    border-color var(--dur-xs) var(--silk),
+    box-shadow var(--dur-s) var(--silk),
+    transform var(--dur-s) var(--spring),
+    background var(--dur-xs) var(--silk)
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(0, 113, 227, .16), 0 4px 14px rgba(0, 0, 0, .2);
+  transform: translateY(-1px)
+}
+
+/* ── BACK TO TOP – spring bounce ── */
+#back-to-top {
+  transition:
+    opacity var(--dur-s) var(--silk),
+    transform var(--dur-s) var(--spring),
+    background var(--dur-xs) var(--silk),
+    box-shadow var(--dur-s) var(--silk)
+}
+
+#back-to-top:hover {
+  transform: translateY(-4px) scale(1.12);
+  background: var(--accent2);
+  box-shadow: 0 12px 30px rgba(0, 113, 227, .5)
+}
+
+#back-to-top:active {
+  transform: scale(.92)
+}
+
+/* ── SECTION TAG – subtle shimmer on hover ── */
+.section-tag {
+  transition:
+    transform var(--dur-s) var(--spring),
+    background var(--dur-xs) var(--silk),
+    box-shadow var(--dur-s) var(--silk)
+}
+
+.section-tag:hover {
+  transform: scale(1.04);
+  background: rgba(0, 113, 227, .18);
+  box-shadow: 0 4px 14px rgba(0, 113, 227, .25)
+}
+
+/* ── SCROLL DOTS – spring expand ── */
+.c-dot,
+.slide-dot {
+  transition: all var(--dur-s) var(--spring)
+}
+
+.c-dot:hover {
+  transform: scale(1.5);
+  background: rgba(0, 113, 227, .6)
+}
+
+/* ── TECH PILLS ── */
+.tech-pill {
+  transition:
+    transform var(--dur-s) var(--spring),
+    background var(--dur-xs) var(--silk),
+    box-shadow var(--dur-s) var(--silk)
+}
+
+.tech-pill:hover {
+  transform: translateY(-3px) scale(1.07);
+  background: rgba(0, 113, 227, .22);
+  box-shadow: 0 6px 16px rgba(0, 113, 227, .3)
+}
+
+/* ── HAMBURGER hover ── */
+.hamburger {
+  transition: transform var(--dur-s) var(--spring)
+}
+
+.hamburger:hover {
+  transform: scale(1.1)
+}
+
+/* ── NAV CLOSE button ── */
+#nav-close {
+  transition:
+    transform var(--dur-s) var(--spring),
+    background var(--dur-xs) var(--silk),
+    color var(--dur-xs) var(--silk)
+}
+
+#nav-close:hover {
+  transform: rotate(90deg) scale(1.1);
+  background: rgba(255, 71, 71, .18);
+  color: #ff453a
+}
+
+/* ── TIMELINE DOT pulse ring ── */
+.tl-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  transition: border-color var(--dur-s) var(--silk), transform var(--dur-m) var(--spring)
+}
+
+.tl-item:hover .tl-dot {
+  transform: scale(1.3);
+  box-shadow: 0 0 0 6px rgba(0, 113, 227, .22), 0 0 20px rgba(0, 113, 227, .45)
+}
+
+.tl-card {
+  transition:
+    transform var(--dur-s) var(--spring),
+    box-shadow var(--dur-m) var(--silk),
+    border-color var(--dur-xs) var(--silk)
+}
+
+.tl-card:hover {
+  transform: translateX(6px);
+  box-shadow: 0 18px 46px rgba(0, 0, 0, .4), 0 0 0 1px rgba(0, 113, 227, .18)
+}
+
+/* ── HERO SCROLL HINT – enhanced float ── */
+.hero-scroll-hint {
+  animation: hint-float 2.8s ease-in-out infinite
+}
+
+.scroll-line {
+  animation: scroll-grow 2.8s ease-in-out infinite
+}
+
+@keyframes scroll-grow {
+
+  0%,
+  100% {
+    transform: scaleY(1);
+    opacity: .35
+  }
+
+  50% {
+    transform: scaleY(1.25);
+    opacity: .7
+  }
+}
+
+/* ── SLIDE DOTS active state ── */
+.slide-dot.active {
+  box-shadow: 0 0 8px rgba(255, 255, 255, .4)
+}
+
+/* ── LOADER logo subtle pulse ── */
+.loader-logo {
+  animation: logo-pulse 1.8s ease-in-out infinite
+}
+
+@keyframes logo-pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1)
+  }
+
+  50% {
+    opacity: .75;
+    transform: scale(.97)
+  }
+}
+
+/* ── Disable spring animations for reduced-motion users ── */
+@media(prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important
   }
 }

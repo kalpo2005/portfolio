@@ -265,14 +265,20 @@ function initNavbar() {
     if (btt) btt.classList.toggle('visible', sy > 380);
   }, { passive: true });
 
+  // Track scroll position for iOS scroll-lock fix
+  let _savedScrollY = 0;
+
   function openNav() {
+    _savedScrollY = window.scrollY;
     sideNav.classList.add('open');
     overlay.classList.add('open');
     sideNav.setAttribute('aria-hidden', 'false');
     overlay.setAttribute('aria-hidden', 'false');
     ham.setAttribute('aria-expanded', 'true');
     ham.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    // Lock body scroll – works on iOS Safari too
+    document.body.style.top = `-${_savedScrollY}px`;
+    document.body.classList.add('nav-open');
   }
 
   function closeNav() {
@@ -282,7 +288,10 @@ function initNavbar() {
     overlay.setAttribute('aria-hidden', 'true');
     ham.setAttribute('aria-expanded', 'false');
     ham.classList.remove('open');
-    document.body.style.overflow = '';
+    // Restore scroll position
+    document.body.classList.remove('nav-open');
+    document.body.style.top = '';
+    window.scrollTo(0, _savedScrollY);
   }
 
   on(ham, 'click', () => sideNav.classList.contains('open') ? closeNav() : openNav());
