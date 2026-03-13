@@ -12,10 +12,10 @@ const KB = {
     location: "Botad, Gujarat, India",
     email: "kalpeshbavaliya2005@gmail.com",
     phone: "+91 70967 20915",
-    github: "https://github.com",
-    linkedin: "https://linkedin.com",
+    github: "https://github.com/kalpo2005",
+    linkedin: "https://linkedin.com/in/kalpesh-bavaliya",
     twitter: "https://twitter.com",
-    resume: "resume.pdf",
+    resume: "~/resume/resume.pdf",
     image: "~/images/kalpesh-portfolio.png",
 
     /* ── Typewriter phrases ── */
