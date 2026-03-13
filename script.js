@@ -22,7 +22,7 @@ function initCanvas() {
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   let W, H, particles = [], mouse = { x: null, y: null }, animId;
-  const N = 90, SP = .25, CR = 2, CD = 130;
+  const N = 80, SP = .25, CR = 1.5, CD = 130;
 
   function resize() {
     W = canvas.width = window.innerWidth;
