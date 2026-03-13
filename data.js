@@ -9,7 +9,7 @@ const KB = {
     name: "Kalpesh Bavaliya",
     role: "Full Stack Developer",
     badge: "Available for work",
-    location: "Botad, Gujarat, India",
+    location: "Gujarat, India",
     email: "kalpeshbavaliya2005@gmail.com",
     phone: "+91 70967 20915",
     github: "https://github.com/kalpo2005",
@@ -43,7 +43,7 @@ const KB = {
     about: {
         cards: [
             { icon: "⚡", title: "2.5+ Years", sub: "Experience" },
-            { icon: "📍", title: "Gadhada, India", sub: "Available Remote" },
+            { icon: "📍", title: "Gujarat,India", sub: "Available Remote" },
         ],
         lead: "Hey there! I'm a passionate <strong>Full Stack Developer</strong> with 2.5+ years of experience turning ideas into robust, scalable digital products.",
         body: [
