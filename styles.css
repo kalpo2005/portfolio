@@ -601,7 +601,8 @@ body.cc #cursor-dot {
   color: #fff
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+.linkedin-btn:hover {
   background: var(--accent2);
   transform: translateY(-2px);
   box-shadow: 0 7px 26px var(--glow)
@@ -2672,6 +2673,25 @@ body.cc #cursor-dot {
   margin-bottom: .5rem
 }
 
+.linkedin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .45rem 1rem;
+  color: var(--accent2);
+  background: rgba(0, 113, 227, .1);
+  border: 1px solid rgba(0, 113, 227, .28);
+  border-radius: 6px;
+  font-size: .82rem;
+  font-weight: 600;
+  transition: background var(--fast), all var(--slow);
+}
+
+.linkedin-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
 .footer-pill {
   display: inline-block;
   padding: .25rem .75rem;
@@ -2729,7 +2749,8 @@ body.cc #cursor-dot {
   transition: all var(--fast)
 }
 
-.footer-socials a svg {
+.footer-socials a svg,
+.linkedin-btn svg {
   width: 18px;
   height: 18px;
   flex-shrink: 0
