@@ -9,7 +9,7 @@ const KB = {
     name: "Kalpesh Bavaliya",
     role: "Full Stack Developer",
     badge: "Available for work",
-    location: "Botad, Gujarat, India",
+    location: "Gujarat, India",
     email: "kalpeshbavaliya2005@gmail.com",
     phone: "+91 70967 20915",
     github: "https://github.com/kalpo2005",
@@ -30,7 +30,7 @@ const KB = {
 
     /* ── Hero stats ── */
     heroStats: [
-        { count: 2.5, suffix: "+", label: "Years XP" },
+        { count: 1.5, suffix: "+", label: "Years XP" },
         { count: 3, suffix: "+", label: "Projects" },
         { count: 2, suffix: "+", label: "Clients" },
         { count: 100, suffix: "k+", label: "Users Served" },
@@ -42,8 +42,8 @@ const KB = {
     /* ── About ── */
     about: {
         cards: [
-            { icon: "⚡", title: "2.5+ Years", sub: "Experience" },
-            { icon: "📍", title: "Gadhada, India", sub: "Available Remote" },
+            { icon: "⚡", title: "1.5+ Years", sub: "Experience" },
+            { icon: "📍", title: "Gujarat,India", sub: "Available Remote" },
         ],
         lead: "Hey there! I'm a passionate <strong>Full Stack Developer</strong> with 2.5+ years of experience turning ideas into robust, scalable digital products.",
         body: [
@@ -60,13 +60,13 @@ const KB = {
 
     /* ── Skills ── */
     skills: [
-        { name: "Node.js", icon: "devicon-nodejs-plain", pct: 93 },
+        { name: "Node.js", icon: "devicon-nodejs-plain", pct: 90 },
         { name: "React.js", icon: "devicon-react-original", pct: 80 },
         { name: "Laravel", icon: "devicon-laravel-plain", pct: 90 },
-        { name: "Flutter", icon: "devicon-flutter-plain", pct: 40 },
+        { name: "Flutter", icon: "devicon-flutter-plain", pct: 30 },
         { name: "JavaScript", icon: "devicon-javascript-plain", pct: 93 },
-        { name: "TypeScript", icon: "devicon-typescript-plain", pct: 85 },
-        { name: "Python", icon: "devicon-python-plain", pct: 75 },
+        { name: "TypeScript", icon: "devicon-typescript-plain", pct: 80 },
+        { name: "Python", icon: "devicon-python-plain", pct: 70 },
         { name: "MySQL", icon: "devicon-mysql-plain", pct: 90 },
         { name: "MongoDB", icon: "devicon-mongodb-plain", pct: 75 },
         // { name: "Redis", icon: "devicon-redis-plain", pct: 78 },
@@ -75,8 +75,8 @@ const KB = {
         // { name: "Docker", icon: "devicon-docker-plain", pct: 80 },
         // { name: "AWS", icon: "devicon-amazonwebservices-original", pct: 75 },
         { name: "Git", icon: "devicon-git-plain", pct: 95 },
-        { name: "Firebase", icon: "devicon-firebase-plain", pct: 85 },
-        { name: "GraphQL", icon: "devicon-graphql-plain", pct: 82 },
+        { name: "Firebase", icon: "devicon-firebase-plain", pct: 70 },
+        { name: "GraphQL", icon: "devicon-graphql-plain", pct: 75 },
         { name: "Tailwind", icon: "devicon-tailwindcss-plain", pct: 90 },
         { name: "Figma", icon: "devicon-figma-plain", pct: 80 },
         { name: "Linux", icon: "devicon-linux-plain", pct: 72 },
@@ -196,7 +196,7 @@ const KB = {
             degree: "B.E. Civil Engineering",
             institute: "Government Engineering College, Bhavnagar",
             period: "September 2022 – May 2023",
-            grade: "CGPA: -",
+            grade: "CGPA: NILL",
             points: [
                 "Building material testing, structural analysis, and construction management",
                 "Team Lead for college cultural fest, organizing events and managing logistics",
@@ -207,10 +207,10 @@ const KB = {
             degree: "Higher Secondary (Science – PCM)",
             institute: "Shree Dakshinamurti Vinay Mandir, Bhavnagar",
             period: "2020 – 2022",
-            grade: "75.4%",
+            grade: "58.92%",
             points: [
                 "Physics, Chemistry & Mathematics core stream",
-                "School-level Math Olympiad winner",
+                "Winner of the School-Level Applied Mathematics Competition.",
             ],
         },
     ],
@@ -231,10 +231,10 @@ const KB = {
             title: "Life at School",
             place: "Shree Hamapar Primary School, Hamapar, Botad",
             body: [
-                "School was where my passion for <strong>mathematics, logic puzzles, and science</strong> first began. Winning the District Math Olympiad in Grade 9 was my first recognition for hard work and analytical thinking.",
+                "School was where my passion for <strong>mathematics, logic puzzles, and science</strong> first began. district-level first rank in the state level scholarship exam, ",
                 "I served as the <strong>School Committee Leader for 2 years</strong>, where I helped manage school activities, organized annual events like sports day, and supported teachers in coordinating academic and extracurricular programs."
             ],
-            highlights: ["🏆 District Math Olympiad Winner", "📡 Science Exhibition Lead", "🎤 Quiz Champion"],
+            highlights: ["🏆 District-level First Rank in state level scholarship exam", "📡 Science Exhibition Lead", "🎤 Quiz Champion"],
         },
         {
             icon: "🌾", emoji: "👨‍🌾",
