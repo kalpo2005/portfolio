@@ -3622,7 +3622,7 @@ body.cc #cursor-dot {
 .footer-contact-col a {
   transition:
     color var(--dur-xs) var(--silk),
-    transform var(--dur-s) var(--spring)
+    transform var(--dur-s) var(--spring);
 }
 
 .footer-links a:hover,
