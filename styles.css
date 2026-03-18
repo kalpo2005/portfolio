@@ -268,15 +268,16 @@ body.cc #cursor-dot {
 }
 
 .loader-logo {
-  font-size: clamp(2.8rem, 7vw, 4.5rem);
-  font-weight: 900;
-  letter-spacing: -.04em;
-  background: var(--ga);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  display: flex;
+  justify-content: center;
   margin-bottom: 1.5rem;
   text-align: center
+}
+
+.loader-logo-img {
+  height: clamp(2.8rem, 7vw, 4.5rem);
+  width: auto;
+  filter: drop-shadow(0 0 12px rgba(0, 113, 227, .55))
 }
 
 .loader-bar {
@@ -339,15 +340,16 @@ body.cc #cursor-dot {
 }
 
 .nav-logo {
-  font-size: 1.45rem;
-  font-weight: 900;
-  letter-spacing: -.04em;
-  background: var(--ga);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  display: flex;
+  align-items: center;
   position: relative;
   z-index: 1
+}
+
+.nav-logo-img {
+  height: 2rem;
+  width: auto;
+  filter: drop-shadow(0 0 6px rgba(0, 113, 227, .4))
 }
 
 /* Desktop nav links */
@@ -477,13 +479,14 @@ body.cc #cursor-dot {
 }
 
 .side-nav-logo {
-  font-size: 1.5rem;
-  font-weight: 900;
-  letter-spacing: -.04em;
-  background: var(--ga);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text
+  display: flex;
+  align-items: center
+}
+
+.side-nav-logo-img {
+  height: 2.2rem;
+  width: auto;
+  filter: drop-shadow(0 0 6px rgba(0, 113, 227, .4))
 }
 
 #nav-close {
@@ -2655,15 +2658,14 @@ body.cc #cursor-dot {
 }
 
 .footer-logo {
-  display: block;
-  font-size: 1.85rem;
-  font-weight: 900;
-  letter-spacing: -.04em;
-  background: var(--ga);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  display: flex;
   margin-bottom: .65rem
+}
+
+.footer-logo-img {
+  height: 2.4rem;
+  width: auto;
+  filter: drop-shadow(0 0 8px rgba(0, 113, 227, .45))
 }
 
 .footer-brand p {
@@ -2858,8 +2860,7 @@ body.cc #cursor-dot {
 
   /* Push hero-split down so image col peeks below navbar */
   .hero-split {
-    padding-top: 64px;
-    /* navbar height */
+    padding-top: 40px;
     box-sizing: border-box
   }
 
