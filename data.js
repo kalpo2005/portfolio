@@ -8,13 +8,13 @@ const KB = {
     /* ── Personal ── */
     name: "Kalpesh Bavaliya",
     role: "Full Stack Developer",
-    badge: "Available for work",
+    badge: "Open to Re-locate",
     location: "Gujarat, India",
     email: "kalpeshbavaliya2005@gmail.com",
     phone: "+91 70967 20915",
     github: "https://github.com/kalpo2005",
     linkedin: "https://linkedin.com/in/kalpesh-bavaliya",
-    twitter: "https://twitter.com",
+    twitter: "https://x.com/KALPO2005?t=9mBHWBk8lrCW5racjKrsKA",
     resume: "~/resume/resume.pdf",
     image: "~/images/kalpesh-portfolio.png",
 
@@ -30,7 +30,7 @@ const KB = {
 
     /* ── Hero stats ── */
     heroStats: [
-        { count: 1.5, suffix: "+", label: "Years XP" },
+        { count: 1.5, suffix: "+", label: "Years EXP" },
         { count: 3, suffix: "+", label: "Projects" },
         { count: 2, suffix: "+", label: "Clients" },
         { count: 100, suffix: "k+", label: "Users Served" },
@@ -45,7 +45,7 @@ const KB = {
             { icon: "⚡", title: "1.5+ Years", sub: "Experience" },
             { icon: "📍", title: "Gujarat,India", sub: "Available Remote" },
         ],
-        lead: "Hey there! I'm a passionate <strong>Full Stack Developer</strong> with 2.5+ years of experience turning ideas into robust, scalable digital products.",
+        lead: "Hey there! I'm a passionate <strong>Full Stack Developer</strong> with 1.5+ years of experience turning ideas into robust, scalable digital products.",
         body: [
             "I specialize in <strong>React.js, Node.js, Laravel</strong> and cloud infrastructure. From pixel-perfect UIs to high-throughput APIs, I love every layer of the stack.",
             "When I'm not coding, I'm exploring system design, contributing to open source, or mentoring junior devs. I believe great software is built on clean code, empathy for users, and relentless iteration.",
@@ -155,7 +155,7 @@ const KB = {
         {
             title: "Full Stack Developer",
             company: "Freelance / Remote",
-            period: "October 2023 – Present",
+            period: "October 2024 – Present",
             current: true,
             points: [
                 "Built a college results portal with Laravel backend and React.js frontend, serving 10k+ students with real-time updates",
@@ -184,7 +184,7 @@ const KB = {
             degree: "Bachelor of Computer Applications (B.C.A.)",
             institute: "Shree Adarsh B.C.A. College, Botad",
             period: "July 2023 – pursuing",
-            grade: "CGPA: -",
+            grade: "CGPA: NILL",
             points: [
                 "Core computer science curriculum with focus on software development, data structures, and algorithms",
                 "Winner of inter-college coding competitions and hackathons",
@@ -315,7 +315,7 @@ const KB = {
     achievements: [
         {
             type: "certificate",
-            image: null,
+            image: "images/achievements/sse.jpg",
             title: "District First Rank – Scholarship Examination",
             issuer: "State Examination Board, Gujarat",
             year: "2018",
@@ -323,16 +323,16 @@ const KB = {
             badge: "🏅",
             color: "linear-gradient(135deg,#ff6b00,#ffaa00)",
         },
-        {
-            type: "award",
-            image: null,
-            title: "Best Final Year Project",
-            issuer: "SVNIT – NIT Surat",
-            year: "2019",
-            desc: "Awarded for developing a multi-tenant SaaS ERP system as the final year project.",
-            badge: "🏆",
-            color: "linear-gradient(135deg,#0071e3,#2997ff)",
-        },
+        // {
+        //     type: "award",
+        //     image: null,
+        //     title: "Best Final Year Project",
+        //     issuer: "SVNIT – NIT Surat",
+        //     year: "2019",
+        //     desc: "Awarded for developing a multi-tenant SaaS ERP system as the final year project.",
+        //     badge: "🏆",
+        //     color: "linear-gradient(135deg,#0071e3,#2997ff)",
+        // },
         // {
         //     type: "certificate",
         //     image: null,

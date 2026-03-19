@@ -2549,7 +2549,7 @@ body.cc #cursor-dot {
 
 /* Gradient top banner */
 .ach-banner {
-  height: 130px;
+  height: 170px;
   display: flex;
   align-items: center;
   justify-content: center;
