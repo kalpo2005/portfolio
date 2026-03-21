@@ -307,7 +307,7 @@ body.cc #cursor-dot {
 /* ── NAV ── */
 #navbar {
   position: fixed;
-  top: 3px;
+  top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
@@ -325,7 +325,6 @@ body.cc #cursor-dot {
 }
 
 #navbar.scrolled {
-  background: rgba(0, 0, 0, .85);
   border-bottom-color: rgba(255, 255, 255, .12);
   box-shadow: 0 1px 32px rgba(0, 0, 0, .7)
 }
