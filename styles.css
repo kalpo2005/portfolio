@@ -2548,12 +2548,13 @@ body.cc #cursor-dot {
 
 /* Gradient top banner */
 .ach-banner {
-  height: 170px;
+  height: 220px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: hidden
+  overflow: hidden;
+  flex-shrink: 0
 }
 
 .ach-banner-emoji {
@@ -2569,7 +2570,67 @@ body.cc #cursor-dot {
   height: 100%;
   object-fit: cover;
   position: absolute;
-  inset: 0
+  inset: 0;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+}
+
+.ach-card:hover .ach-banner img {
+  transform: scale(1.08)
+}
+
+/* Description hover overlay – slides up from bottom of banner */
+.ach-desc-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.65) 55%, rgba(0, 0, 0, 0) 100%);
+  padding: 1rem 1.1rem 1.1rem;
+  transform: translateY(100%);
+  transition: transform 0.42s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none
+}
+
+.ach-card:hover .ach-desc-overlay {
+  transform: translateY(0);
+  opacity: 1
+}
+
+.ach-desc-overlay .ach-overlay-year {
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: .3rem
+}
+
+.ach-desc-overlay .ach-overlay-title {
+  font-size: .88rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.3;
+  margin-bottom: .25rem
+}
+
+.ach-desc-overlay .ach-overlay-issuer {
+  font-size: .72rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: .55rem
+}
+
+.ach-desc-overlay .ach-overlay-text {
+  font-size: .76rem;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden
 }
 
 .ach-type-badge {
@@ -2583,7 +2644,7 @@ body.cc #cursor-dot {
   text-transform: uppercase;
   border-radius: 6px;
   color: #fff;
-  z-index: 2
+  z-index: 4
 }
 
 .ach-type-badge.certificate {
@@ -2595,7 +2656,7 @@ body.cc #cursor-dot {
 }
 
 .ach-body {
-  padding: 1.25rem;
+  padding: 1rem 1.25rem 1.25rem;
   flex: 1;
   display: flex;
   flex-direction: column
@@ -2607,20 +2668,44 @@ body.cc #cursor-dot {
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--accent2);
-  margin-bottom: .4rem
+  margin-bottom: .35rem
 }
 
 .ach-body h3 {
   font-size: .95rem;
   font-weight: 800;
-  margin-bottom: .25rem;
+  margin-bottom: .2rem;
   line-height: 1.3
 }
 
 .ach-issuer {
-  font-size: .78rem;
+  font-size: .76rem;
   color: var(--t3);
-  margin-bottom: .75rem
+  margin-bottom: 0
+}
+
+/* Hint label shown on cards with images */
+.ach-hover-hint {
+  position: absolute;
+  bottom: .55rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: .62rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  padding: .18rem .6rem;
+  border-radius: 20px;
+  z-index: 4;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  white-space: nowrap
+}
+
+.ach-card:hover .ach-hover-hint {
+  opacity: 0
 }
 
 .ach-desc {

@@ -288,7 +288,7 @@ const KB = {
         {
             initials: "PM", grad: "linear-gradient(135deg,#00897b,#4db6ac)",
             image: null,
-            name: "Priya Mehta", role: "Product Manager, GK Maza Innovation",
+            name: "Priya Mehta", role: "Product Manager,<br> Prathamik Innovation",
             text: "\"Kalpesh built our Flutter app from scratch — it now has 50k+ downloads on the Play Store. He's proactive, communicates well, and always delivers quality work.\"",
         },
         // {
@@ -323,16 +323,16 @@ const KB = {
             badge: "🏅",
             color: "linear-gradient(135deg,#ff6b00,#ffaa00)",
         },
-        // {
-        //     type: "award",
-        //     image: null,
-        //     title: "Best Final Year Project",
-        //     issuer: "SVNIT – NIT Surat",
-        //     year: "2019",
-        //     desc: "Awarded for developing a multi-tenant SaaS ERP system as the final year project.",
-        //     badge: "🏆",
-        //     color: "linear-gradient(135deg,#0071e3,#2997ff)",
-        // },
+        {
+            type: "award",
+            image: "images/achievements/programming.jpg",
+            title: "1st Rank in IT Programming Competition",
+            issuer: "Adarsh BCA College, Botad",
+            year: "2025–2026",
+            desc: "Implemented an optimized C++ approach to efficiently solve a problem within strict time limits.",
+            badge: "🥇",
+            color: "linear-gradient(135deg, #0071e3, #2997ff)",
+        }
         // {
         //     type: "certificate",
         //     image: null,
